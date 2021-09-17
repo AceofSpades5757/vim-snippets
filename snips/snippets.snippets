@@ -1,0 +1,178 @@
+# UltiSnips Snippet Snippets
+# Author:       AceofSpades5757
+# Version:      1.0.0
+# Last Change:  September 17, 2021
+#
+# Options
+# -------
+# r - Regex
+# b - Beginning of Line
+#
+
+###############
+### Globals ###
+###############
+
+# Today's Date (Strip Leading 0s): YYYY MMMM DD
+global !p
+from datetime import date
+today = date.today().strftime('%B %d, %Y')
+clean_today = ' '.join([i.lstrip('0') for i in today.split()])
+today = clean_today
+endglobal
+
+global !p
+def expand(snip, jump_pos=1):
+	if snip.tabstop != jump_pos:
+		return
+
+	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+
+#############
+### Basic ###
+#############
+
+snippet global "Global, Python, snippet block."
+global !p
+${0:${VISUAL:global block}}
+endglobal
+endsnippet
+
+snippet reserved "Allows reserved work, like `endsnippet` inside a snippet"
+`!p snip.rv = '\`!p snip.rv = "'`${1:reserved_word}"\`$0
+endsnippet
+
+snippet interpolation_python "Basic Python interpolation"
+`!p snip.rv = '\`!p snip.rv = '`${1:string}\`$0
+endsnippet
+
+###################
+### Placholders ###
+###################
+
+snippet placeholder "An UltiSnips placeholder."
+${${1:number}:${2:${VISUAL:description}}}$0
+endsnippet
+
+snippet placeholder_visual "An UltiSnips visual placeholder."
+${${1:number}:`!p snip.rv = "${VISUAL:"`${2:Description}}}$0
+endsnippet
+
+# Dynamic Snippets
+snippet "snippet_dynamic" "Dynamic snippet" br
+snippet "h([1-6])" "Dynamic snippet" br
+`!p snip.rv = """# Header
+# r - Regex
+# b - Beginning of Line
+\`!p snip.rv = int(match.group(1)) * '#'\` ${0:${VISUAL:Title}}"""`
+`!p snip.rv = "endsnippet"`
+endsnippet
+
+# Source (Amazing): https://vi.stackexchange.com/questions/11240/ultisnips-optional-line
+snippet placeholder_replacement "An UltiSnips replacement placeholder."
+${${1:number}/${2:pattern}/${3:replacement}/${4:options}}$0
+endsnippet
+
+###############
+### Headers ###
+###############
+
+# Descriptor would be like `Documentation`
+snippet header "Header for snippet file"
+# ${1:Language} ${2:Descriptor} Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.1
+# Last Change:  `!p snip.rv = today`
+endsnippet
+
+################
+### Snippets ###
+################
+
+snippet snippet_basic "Basic snippet"
+snippet ${1:Trigger} "${2:Description}" ${3:Options}
+${0:${VISUAL:Snippet}}
+`!p snip.rv = "endsnippet"`
+endsnippet
+post_jump "expand(snip)"
+snippet snippet "Description"
+snippet_basic$1
+endsnippet
+
+snippet snippet_visual "Visual snippet"
+snippet ${1:Trigger} "${2:Description}" ${3:Options}
+\${0:\${VISUAL:${0:${VISUAL:Snippet}}}}
+`!p snip.rv = "endsnippet"`
+endsnippet
+
+snippet snippet_alias "Alias snippet"
+post_jump "expand(snip)"
+snippet ${1:Alias} "Description"
+${2:Actual Snippet}\$1
+# REQUIRES THE GLOBAL FROM "expand" SNIPPET!
+`!p snip.rv = "endsnippet"`
+endsnippet
+post_jump "expand(snip)"
+snippet alias "Description"
+snippet_alias$1
+endsnippet
+
+# This will use the first expansion for the others.
+# Kept for Reference
+snippet snippet_multi "Use one placeholder for many"
+${1:Placeholder}
+${0:$1}
+${0:$1}
+${0:$1}
+${0:$1}
+endsnippet
+
+###############
+### Helpers ###
+###############
+
+# This alias setup also allows for some cool automatic, advanced expansion.
+# No longer remember the source of this function to give credit.
+snippet expand "Expand for alias and other snippets."
+global !p
+def expand(snip, jump_pos=1):
+	if snip.tabstop != jump_pos:
+		return
+
+	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+endsnippet
+
+snippet expand_anon "Expand snippet by name."
+global !p
+def expand_anon(snip):
+
+	start_line = snip.snippet_start[0]
+	end_line = snip.snippet_end[0]
+
+	spaces = vim.eval(f'indent({start_line})')
+	shiftwidth = vim.eval('&shiftwidth')
+	indent = int(int(spaces) / int(shiftwidth))
+
+
+	anonomous_snippet = snip.buffer[snip.snippet_start[0]:snip.snippet_end[0]]
+	anonomous_snippet = '\n'.join(anonomous_snippet).strip()
+
+	snip.buffer[start_line:end_line] = ''
+
+	anonomous_snippet = anonomous_snippet.splitlines()
+	for i in range(len(anonomous_snippet)):
+		anonomous_snippet[i] = indent * '\t' + anonomous_snippet[i]
+	anonomous_snippet = '\n'.join(anonomous_snippet)
+
+	# Only accessible in post_jump, and maybe post_expand/pre_expand
+	snip.expand_anon(anonomous_snippet)
+endglobal
+
+# HOW TO USE expand_anon
+post_jump "expand_anon(snip)"
+snippet test "test"
+`!p snip.rv = '\`!p snip.rv = "my ${1:snippet}$0"\`'`
+`!p snip.rv = "endsnippet"`
+endsnippet
