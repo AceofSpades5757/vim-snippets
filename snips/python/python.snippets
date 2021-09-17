@@ -1,0 +1,217 @@
+# Python Snippets
+# Author:      AceofSpades5757
+# Version:     1.0.0
+# Last Change: September 17, 2021
+
+###############
+### Helpers ###
+###############
+
+# For Alias Snippets
+global !p
+def expand(snip, jump_pos=1):
+	if snip.tabstop != jump_pos:
+		return
+	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+
+#############
+### Basic ###
+#############
+
+snippet main "if __name__ == '__main__':"
+if __name__ == '__main__':
+	${0:${VISUAL:main()}}
+endsnippet
+
+snippet import
+import ${1:${VISUAL:package}}
+endsnippet
+
+snippet __import__ "__import__('package')" i
+__import__('${1:${VISUAL:package}}')$0
+endsnippet
+
+snippet from
+from ${1:package} import ${0:module}
+endsnippet
+
+###############
+### Headers ###
+###############
+
+snippet shebang "Shebang line for Python (1st Line)."
+#!/usr/bin/env python3
+endsnippet
+
+# Doesn't like python3
+snippet git_shebang "Shebang line for Python (1st Line)."
+#!/usr/bin/env python
+endsnippet
+
+snippet encoding_utf8
+# -*- coding: utf-8 -*-
+endsnippet
+
+snippet encoding_latin1
+# -*- coding: latin-1 -*-
+endsnippet
+
+snippet encoding_ascii
+# -*- coding: ascii -*-
+endsnippet
+
+snippet header_minimal "Minimal header for python files."
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+endsnippet
+
+snippet switch_statement "Basic switch statement implementation (Not Recommended: Use Class)." bm
+${1:switcher} = {
+"option_1": lambda arg_1, arg_2:
+	pass,
+"option_2": lambda arg_1, arg_2:
+	pass
+"option_3": lambda arg_1, arg_2:
+	pass
+
+"default": lambda arg_1, arg_2:
+	pass
+}
+
+${2:mediary_function} = $1.get(option, $1['default'])
+$2(argument_1, argument_2)
+${0:description}
+endsnippet
+
+################
+### Redirect ###
+################
+
+snippet redirect_std "Redirect stdout/err to NULL" b
+import os
+import sys
+sys.${1:stderr} = open(os.devnull, 'w')$0
+endsnippet
+
+snippet redirect_std_inline "Redirect stdout/err to NULL with __import__." b
+__import__('sys').${1:stderr} = open(__import__('os').devnull, 'w')$0
+endsnippet
+
+snippet redirect_std_with_reset "Redirect stdout/err to NULL, reset back." b
+import os
+import sys
+# To NULL
+$1 = sys.${1:stderr}
+sys.$1 = open(os.devnull, 'w')
+`!p snip.rv = snip.mkline('\n') if t[2] != '' else ''`${2:${VISUAL:Code}}`!p snip.rv = snip.mkline('\n') if t[2] != '' else ''`
+# Back to Normal
+sys.$1 = $1
+$0
+endsnippet
+
+###############
+### Helpers ###
+###############
+
+snippet classproperty "Creates a classproperty decorator." bm
+class ClassPropertyDescriptor(object):
+
+	def __init__(self, fget, fset=None):
+		self.fget = fget
+		self.fset = fset
+
+	def __get__(self, obj, klass=None):
+		if klass is None:
+			klass = type(obj)
+		return self.fget.__get__(obj, klass)()
+
+	def __set__(self, obj, value):
+		if not self.fset:
+			raise AttributeError("can't set attribute")
+		type_ = type(obj)
+		return self.fset.__get__(obj, type_)(value)
+
+	def setter(self, func):
+		if not isinstance(func, (classmethod, staticmethod)):
+			func = classmethod(func)
+		self.fset = func
+		return self
+
+def classproperty(func):
+	if not isinstance(func, (classmethod, staticmethod)):
+		func = classmethod(func)
+
+	return ClassPropertyDescriptor(func)
+endsnippet
+
+################
+### Currency ###
+################
+
+snippet currency-str_to_float "Convert string to float (Pandas/Numpy)." b
+# Take series
+str_to_float = lambda series: series['Withdrawals'].str.replace('$', '', regex=False).str.replace(',', '', regex=False).astype(float)
+endsnippet
+
+############
+### Enum ###
+############
+
+snippet enum_contains "Add contains for names and values to enumerator." bm
+from enum import Enum, EnumMeta
+
+
+class ExtendedEnum(EnumMeta):
+
+	def __contains__(cls, item):
+
+		return any([item in cls.values,
+					item in cls.names,
+					item in cls.__members__.values(),
+					])
+
+
+class Enumerator(Enum, metaclass=ExtendedEnum):
+
+	@classmethod
+	@property
+	def values(cls):
+		return [i.value for i in cls]
+
+	@classmethod
+	@property
+	def names(cls):
+		return [i.name for i in cls]
+endsnippet
+
+#############
+### Regex ###
+#############
+
+snippet regex_group "Regex named group"
+(?P<${1:group_name}>${2:regex})
+endsnippet
+
+snippet regex_group_reference "Regex named group reference"
+# https://docs.python.org/3/library/re.html#index-17
+endsnippet
+
+######################
+### Aware Datetime ###
+######################
+# 3.9 includes `zoneinfo`
+
+snippet datetime_aware "Aware Datetime object" bm
+# pip install python-dateutil
+from dateutil.tz import tzlocal
+from datetime import datetime
+aware_datetime = datetime.utcnow().astimezone(tzlocal())
+endsnippet
+
+snippet datetime_aware_utc "Aware Datetime object (UTC)" bm
+# pip install python-dateutil
+from dateutil.tz import tzutc
+from datetime import datetime
+aware_datetime = datetime.utcnow().astimezone(tzutc())
+endsnippet
