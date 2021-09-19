@@ -75,6 +75,12 @@ snippet interpolation_python "Basic Python Interpolation"
 `!p snip.rv = '\`!p snip.rv = '`${1:string}\`$0
 endsnippet
 
+snippet interpolation_python_multiline "Basic, Multiline Python Interpolation"
+`!p snip.rv = "\`!p"`
+${1:Python Code}
+`!p snip.rv = "\`"`
+endsnippet
+
 snippet interpolation_vim "Basic Vim Interpolation"
 `!p snip.rv = '\`!v '`${1:string_expression}\`$0
 endsnippet
