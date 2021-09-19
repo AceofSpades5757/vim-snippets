@@ -1,12 +1,21 @@
 # UltiSnips Snippet Snippets
 # Author:       AceofSpades5757
-# Version:      1.0.0
-# Last Change:  September 17, 2021
+# Version:      1.0.1
+# Last Change:  September 19, 2021
 #
-# Options
+# Options (`:help UltiSnips-snippet-options`)
 # -------
-# r - Regex
 # b - Beginning of Line
+# w - Word Boundary
+# i - Inline/In-Word
+#
+# s - Remove Whitespace
+# m - Trim All Trailing Whitespace
+# t - Do not expand tabs
+# A - Auto Trigger
+# r - Regex
+#
+# e - Context
 #
 
 ###############
@@ -21,12 +30,30 @@ clean_today = ' '.join([i.lstrip('0') for i in today.split()])
 today = clean_today
 endglobal
 
+# Expand Snippet
 global !p
 def expand(snip, jump_pos=1):
 	if snip.tabstop != jump_pos:
 		return
 
 	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+
+# Authorship Information
+global !p
+from types import SimpleNamespace
+
+
+# SimpleNamespace can be replaced with Class
+# These are variables set in _vimrc
+# * `let g:snips_author = "My Name"`
+# * `let g:snips_email = "my.email@email.com"`
+# * `let g:snips_github = "MyGitHubUsername123"`
+author = SimpleNamespace(
+	name=vim.vars.get('snips_author').decode('utf-8'),
+	email=vim.vars.get('snips_email').decode('utf-8'),
+	github=vim.vars.get('snips_github').decode('utf-8'),
+)
 endglobal
 
 #############
@@ -81,8 +108,8 @@ endsnippet
 # Descriptor would be like `Documentation`
 snippet header "Header for snippet file"
 # ${1:Language} ${2:Descriptor} Snippets
-# Author:       AceofSpades5757
-# Version:      0.0.1
+# Author:       `!p snip.rv = author.name`
+# Version:      ${3:0.0.1}
 # Last Change:  `!p snip.rv = today`
 endsnippet
 
