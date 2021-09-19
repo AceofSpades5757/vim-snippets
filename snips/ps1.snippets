@@ -1,0 +1,10 @@
+# PowerShell General Snippets
+# Author:       Kyle L. Davis
+# Version:      0.0.1
+# Last Change:  September 19, 2021
+
+snippet alias_function "Alias using f_function."
+# ${1:Description}
+function f_${2:function_name} { ${3:CommandToRun} $args }
+Set-Alias -Name $2 -Value f_$2$0
+endsnippet
