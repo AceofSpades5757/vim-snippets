@@ -1,0 +1,66 @@
+# Global Helpers Snippets
+# Author:       Kyle L. Davis
+# Version:      1.0.0
+# Last Change:  September 19, 2021
+
+##############
+### Global ###
+##############
+
+global !p
+from datetime import datetime, timezone
+# pip install python-dateutil
+from dateutil.tz import tzutc, tzlocal
+endglobal
+
+############
+### Date ###
+############
+
+snippet date
+`!v strftime("%Y-%m-%d")`
+endsnippet
+
+snippet ddate
+`!v strftime("%B %d, %Y")`
+endsnippet
+
+############
+### Time ###
+############
+
+snippet time
+`!v strftime("%H:%M")`
+endsnippet
+
+################
+### Datetime ###
+################
+
+# ISO 8601 (International Standard)
+# The Unix format (seconds since 1/1/1970 (UTC)) is also common
+snippet timestamp "Time Stamp (ISO 8601)"
+`!v strftime("%Y-%m-%dT%H:%M:%S")`
+endsnippet
+snippet ts "Time Stamp (ISO 8601)"
+timestamp$0
+endsnippet
+
+snippet datetime "Datetime (YYYY-MM-DD HH:MM)"
+`!v strftime("%Y-%m-%d %H:%M")`
+endsnippet
+# Alias
+snippet dt "Datetime (YYYY-MM-DD HH:MM)"
+datetime$0
+endsnippet
+
+# UTC
+# No Microseconds
+# ISO Format
+# 2021-03-18T17:27:28+00:00
+snippet utc "UTC Datetime (YYYY-MM-DDTHH:MM:SS+00:00)"
+`!p snip.rv = datetime.now(tzutc()).replace(microsecond=0).isoformat()`$0
+endsnippet
+snippet iso "ISO Datetime (YYYY-MM-DDTHH:MM:SS+NN:NN)"
+`!p snip.rv = datetime.now(tzlocal()).replace(microsecond=0).isoformat()`$0
+endsnippet
