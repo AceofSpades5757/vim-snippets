@@ -1,0 +1,62 @@
+# gitignore General Snippets
+# Author:       Kyle L. Davis
+# Version:      1.0.0
+# Last Change:  September 19, 2021
+#
+# Excellent Tool to Generate Docs: https://www.toptal.com/developers/gitignore
+
+snippet basic_gitignore "Basic .gitignore file"
+# Python - Temps
+__pycache__/
+*.py[cod]
+# Python - Rope
+.ropeproject/
+# Python - Jupyter temp files
+.pynb_checkpoints
+# Python - venv virtual environment
+venv/
+env-*/
+
+# Tag Files
+tags
+tags.*
+
+# Log Files
+*.log
+
+# Credentials
+token.*
+*credentials*
+
+
+# Keep Empty Directories with .gitkeep files
+!.gitkeep
+endsnippet
+
+snippet keep "Files to keep." b
+!${1:.gitkeep}
+endsnippet
+
+snippet file "File to ignore." b
+${1:file}
+endsnippet
+
+snippet directory "Directory to ignore." b
+${1:directory_name}/
+endsnippet
+
+snippet filetype "File type to ignore." b
+*.${1:extension}
+endsnippet
+
+snippet file "File name to ignore with any extension." b
+${1:file_name}.*
+endsnippet
+
+snippet file_contains "Any file that contains argument." b
+.*${1:argument}.*
+endsnippet
+
+snippet directory_contains "Any directory that contains argument." b
+.*${1:argument}.*/
+endsnippet
