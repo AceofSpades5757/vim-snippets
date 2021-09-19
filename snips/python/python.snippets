@@ -88,17 +88,17 @@ endsnippet
 ### Redirect ###
 ################
 
-snippet redirect_std "Redirect stdout/err to NULL" b
+snippet redirect_std "Redirect chosen stream to NULL." b
 import os
 import sys
 sys.${1:stderr} = open(os.devnull, 'w')$0
 endsnippet
 
-snippet redirect_std_inline "Redirect stdout/err to NULL with __import__." b
+snippet redirect_std_inline "Redirect chosen stream to NULL with __import__." b
 __import__('sys').${1:stderr} = open(__import__('os').devnull, 'w')$0
 endsnippet
 
-snippet redirect_std_with_reset "Redirect stdout/err to NULL, reset back." b
+snippet redirect_std_with_reset "Redirect chosen stream to NULL, reset back." b
 import os
 import sys
 # To NULL
