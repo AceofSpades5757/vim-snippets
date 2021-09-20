@@ -1,0 +1,17 @@
+# Python Comprehension Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.1
+# Last Change:  2021 May 23
+
+
+snippet comprehension_list "List comprehension."
+[${1} for ${2} in ${3:${VISUAL}}]$0
+endsnippet
+
+snippet comprehension_dict "Dict comprehension."
+{${1}: ${2} for ${3} in ${4:${VISUAL}}}$0
+endsnippet
+
+snippet comprehension_set "Set comprehension."
+{${1} for ${2} in ${3:${VISUAL}}}$0
+endsnippet
