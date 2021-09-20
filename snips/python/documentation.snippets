@@ -1,0 +1,175 @@
+# Python Documentation Snippets
+# Author:       Kyle L. Davis
+# Version:      0.1.1
+# Last Change:  September 19, 2021
+# Source: https://numpydoc.readthedocs.io/en/latest/format.html
+#
+# There are a number of different styles available
+# * numpy
+# * google
+# * others...
+#
+
+
+snippet docstring_script "Docstring for a script."
+"""Spreadsheet Column Printer
+
+This script allows the user to print to the console all columns in the
+spreadsheet. It is assumed that the first row of the spreadsheet is the
+location of the columns.
+
+This tool accepts comma separated value files (.csv) as well as excel
+(.xls, .xlsx) files.
+
+This script requires that \`pandas\` be installed within the Python
+environment you are running this script in.
+
+This file can also be imported as a module and contains the following
+functions:
+
+	* get_spreadsheet_cols - returns the column headers of the file
+	* main - the main function of the script
+"""
+endsnippet
+
+snippet docstring "A standard numpy-style docstring."
+"""One line summary.
+
+Optional extended summary that can span multiple lines.
+
+Section Heading
+---------------
+
+Order should be kept consistent.
+
+Parameters
+----------
+x : type
+	Description of parameter \`x\`.
+y
+	Description of parameter \`y\` (w/o type).
+z : int, optional
+	Description. Default: \`-1\` which implies something or another.
+xyz : int, default=-1
+a : int, default: -1
+b : int, default: -1
+c : int, default -1
+copy : bool
+files : list or str
+order : {'A', 'R', 2}
+	When a parameter can only be one of a number of options.
+e, f : list
+	When 2 parameters have the same type and description.
+
+Returns
+-------
+int
+	Description of the returned value.
+err_code : int
+	Non-zero value indicated error code. Zero for success.
+err_msg : str or None
+	Human readable error message. None for success.
+
+Yields
+------
+int
+	Description
+
+Receives
+--------
+Warns
+-----
+Warnings
+--------
+See Also
+--------
+Notes
+-----
+References
+----------
+
+Examples
+--------
+>>> np.add(1,2)
+3
+>>> np.remove(5)
+0
+# Do **not** end on an empty line
+"""
+endsnippet
+
+#############
+### Class ###
+#############
+
+# For method docstrings, see default
+snippet docstring_class "A simple python tag?"
+"""This is the form of a docstring.
+
+It can be spread over several lines.
+Use all the same sections from the default docstring.
+
+Attributes
+----------
+real
+imag
+x : float
+	The X coordinate
+y : float
+	The Y coordinate
+
+Methods
+-------
+my_method(parm='hello')
+	The X coordinate
+my_other_method(parm_again=2)
+	The Z coordinate
+"""
+endsnippet
+
+#################
+### Functions ###
+#################
+
+snippet docstring_func "A simple python tag?"
+"""The sum of two numbers.
+
+"""
+endsnippet
+
+# Same as functions
+snippet docstring_constant "A simple python tag?"
+1. summary
+2. extended summary (optional)
+3. see also (optional)
+4. references (optional)
+5. examples (optional)
+endsnippet
+
+# Same as functions (returns->yield)
+snippet docstring_generator ""
+endsnippet
+
+###############
+### Modules ###
+###############
+
+snippet docstring_module_2 "A simple python tag?"
+1. summary
+2. extended summary
+3. routine listings
+4. see also
+5. notes
+6. references
+7. examples
+endsnippet
+
+snippet docstring_module "Part of the module docstring. Needs extension."
+"""
+File: ${1:`!v expand('%')`}
+Author: `!v g:snips_author`
+Email: `!v g:snips_email`
+Github: `!v g:snips_github`
+Description: ${2:Description}
+"""$0
+endsnippet
