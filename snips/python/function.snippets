@@ -1,0 +1,60 @@
+# Python Function Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.4
+# Last Change:  September 19, 2021
+
+
+snippet function "Function"
+def ${1:fname}(${2:`!v indent('.') ? 'self' : ''`}):
+	${0}
+endsnippet
+
+snippet lambda "Lambda Function."
+${1:var} = lambda ${2:vars} : ${0:action}
+endsnippet
+
+snippet function_docstring "Function with docstring"
+def ${1:fname}(${2:`!v indent('.') ? 'self' : ''`}):
+	"""${3:docstring for $1}"""
+	${0}
+endsnippet
+
+snippet function_basic "A type of way to write a function"
+def function_name(args):
+		"""Summary or Description of what the function does
+
+		Type Contract:
+		int -> string
+
+		Paramaters:
+		argument_1 (int): Description for argument_1
+		argument_2 (str): Description for argument_2
+		argument_3 (int): Description for argument_3
+
+		Tests:
+		>>> function_name(arg)
+		string_1
+		>>> function_name(arg_1)
+		string_2
+		>>> function_name(arg_2)
+		string_3
+		>>> function_name(arg_3)
+		"""
+
+		return argument_1
+endsnippet
+
+#############
+### Async ###
+#############
+
+snippet function_async "Function - async"
+async def ${1:fname}(${2:`!v indent('.') ? 'self' : ''`}):
+	${0}
+endsnippet
+
+snippet function_async_docstring "Function - async with docstring"
+async def ${1:fname}(${2:`!v indent('.') ? 'self' : ''`}):
+	"""${3:docstring for $1}"""
+	${0}
+endsnippet
