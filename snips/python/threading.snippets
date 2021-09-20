@@ -1,0 +1,20 @@
+# Python Threading Snippets
+# Author:       Kyle L. Davis
+# Version:      0.0.1
+# Last Change:  September 19, 2021
+
+
+# Best for IO-bound tasks (networking, read/write, etc.)
+# Use multiprocessing for CPU-intensive tasks (math, pandas)
+snippet threading "Basic threading"
+# Daemon (Background)
+x = threading.Thread(target=function_1, args=(True,), daemon=True)
+# Non-Daemon
+y = threading.Thread(target=function_2)
+
+threads = [x, y]
+for thread in threads:
+	thread.start()
+for thread in threads:
+	thread.join(timeout=5)
+endsnippet
