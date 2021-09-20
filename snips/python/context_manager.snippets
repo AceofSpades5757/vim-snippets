@@ -1,0 +1,33 @@
+# Python Context Manager Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.1
+# Last Change:  2021 May 23
+
+
+snippet with
+with ${1:expression} as ${2:variable}:
+	${0:${VISUAL}}
+endsnippet
+
+snippet with_async
+async with ${1:expression} as ${2:variable}:
+	${0:${VISUAL}}
+endsnippet
+
+#########################
+### Advanced/Specific ###
+#########################
+
+snippet context_manager_db "A basic db context manager helper function"
+# Helper Function for a Context Manager
+
+from contextlib import contextmanager
+
+@contextmanager
+def open_database(database):
+	conn = sqlite3.connect(database)
+	curs = conn.cursor()
+	yield curs
+	# conn.commit()  # Don't need unless making changes
+	conn.close()
+endsnippet
