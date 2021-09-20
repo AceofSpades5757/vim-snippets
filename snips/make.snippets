@@ -1,0 +1,32 @@
+# Makefile General Snippets
+# Author:       Kyle L. Davis
+# Version:      0.0.1
+# Last Change:  September 19, 2021
+
+
+snippet basic "Basic makefile setup for Python project." b
+# Variables
+PYTHON = python3
+
+# Settings
+.DEFAULT_GOAL = help
+
+
+help:
+	@echo "---------------HELP---------------------------"
+	@echo "make setup - Setup app."
+	@echo "make run   - Run app."
+	@echo "make build - Build app."
+	@echo "make test  - Test app."
+	@echo "make clean - Clean temporary files and caches."
+	@echo "----------------------------------------------"
+
+test:
+	${PYTHON} -m pytest
+
+run:
+	${PYTHON} app.py
+
+clean:
+	@echo "rm -r *.project"
+endsnippet
