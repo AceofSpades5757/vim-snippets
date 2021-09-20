@@ -1,0 +1,119 @@
+# Python Shell Snippets
+# Author:       Kyle L. Davis
+# Version:      0.3.8
+# Last Change:  September 19, 2021
+
+
+global !p
+def expand(snip, jump_pos=1):
+	if snip.tabstop != jump_pos:
+		return
+
+	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+
+
+snippet subprocess "Basic subprocess.run setup. Include silent." b
+import subprocess
+
+
+# Windows Only
+if sys.platform == 'win32':
+	startup_info = subprocess.STARTUPINFO()
+	startup_info.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+else:
+	startup_info = None
+
+command = ${0:command}
+
+process = subprocess.run(
+	command,
+	stdout=subprocess.PIPE,
+	stderr=subprocess.PIPE,
+	startupinfo=startup_info,
+)
+
+stdout = process.stdout.decode()
+stderr = process.stderr.decode()
+endsnippet
+
+snippet popen "Basic subprocess.Popen setup. Include silent." b
+import subprocess
+
+
+# Windows Only
+if sys.platform == 'win32':
+	startup_info = subprocess.STARTUPINFO()
+	startup_info.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+else:
+	startup_info = None
+
+command = ${0:command}
+
+process = subprocess.Popen(
+	command,
+	stdout=subprocess.PIPE,
+	stderr=subprocess.PIPE,
+	startupinfo=startup_info,
+)
+
+stdout, stderr = map(bytes.decode, process.communicate())
+endsnippet
+
+# Blessed
+snippet blessed "Basic blessed for colorful termial output."
+from blessed import Terminal
+
+term = Terminal()
+
+# Unicode
+print(term.green('✓ All systems functioning within defined parameters.'))
+print(term.yellow('⚠ All systems functioning within defined parameters.'))
+print(term.red('! All systems are offline'))
+endsnippet
+
+
+snippet os_python "Platform-specific Python executable."
+import sys
+import platform
+
+
+py_version = sys.version_info
+py_version = f'{py_version.major}.{py_version.minor}'
+py_architecture = platform.architecture()[0][:2]
+
+# Windows: py -3.8-32
+# Other (Linux): python3
+python_executable = f'py -{py_version}-{py_architecture}' if sys.platform =='win32' else 'python3'
+endsnippet
+
+
+snippet run_command "Basic function for running commands." b
+def run_command(command: list) -> tuple[str, str]:
+
+	process = subprocess.run(command,
+		stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+	stdout, stderr = process.stdout.decode(), process.stderr.decode()
+
+	return stdout, stderr
+endsnippet
+
+
+snippet run_command_async "Basic function for running commands." b
+async def async_run_command(command: str) -> (str, str):
+
+	process = await asyncio.create_subprocess_shell(
+		command,
+		stdout=asyncio.subprocess.PIPE,
+		stderr=asyncio.subprocess.PIPE)
+
+	stdout, stderr = await process.communicate()
+	stdout, stderr = stdout.decode(), stderr.decode()
+
+	return stdout, stderr
+endsnippet
+post_jump "expand(snip)"
+snippet async_run_command "Description"
+run_command_async$1
+endsnippet
