@@ -1,0 +1,108 @@
+# Python Control Flow Snippets
+# Author:       AceofSpades5757
+# Version:      1.0.2
+# Last Change:  September 19, 2021
+
+
+###############
+### Helpers ###
+###############
+
+global !p
+def expand_anon(snip):
+
+	start_line = snip.snippet_start[0]
+	end_line = snip.snippet_end[0]
+
+	spaces = vim.eval(f'indent({start_line})')
+	shiftwidth = vim.eval('&shiftwidth')
+	indent = int(int(spaces) / int(shiftwidth))
+
+
+	anonomous_snippet = snip.buffer[snip.snippet_start[0]:snip.snippet_end[0]]
+	anonomous_snippet = '\n'.join(anonomous_snippet).strip()
+
+	snip.buffer[start_line:end_line] = ''
+
+	anonomous_snippet = anonomous_snippet.splitlines()
+	for i in range(len(anonomous_snippet)):
+		anonomous_snippet[i] = indent * '\t' + anonomous_snippet[i]
+	anonomous_snippet = '\n'.join(anonomous_snippet)
+
+	snip.expand_anon(anonomous_snippet)
+endglobal
+
+#####################
+### If Statements ###
+#####################
+
+snippet if
+if ${1:condition}:
+	${0:${VISUAL}}
+endsnippet
+
+# Dynamic if/else
+# There's some kind of bug with this... I think it's the expand_anon that was
+# removed previously. Still mostly works.
+post_jump "expand_anon(snip)"
+snippet "i(f{2,})" "Dynamic If Elif Else" br
+`!p count = len(match.group(1))`
+`!p
+if count == 2:
+	anonomous_snippet = """
+if ${1:condition}:
+	${2:pass}
+else:
+	${3:pass}
+	"""
+else:
+	anonomous_snippet = """
+if ${1:condition}:
+	${2:pass}"""
+
+	print(1)
+	print(2)
+	for i in range(count - 2):
+		print(2*i+3)
+		print(2*i+4)
+		anonomous_snippet += f"""
+elif ${{{2*i+3}:condition}}:
+	${{{2*i+4}:pass}}"""
+
+	print(2 * count - 1)
+	anonomous_snippet += f"""
+else:
+	${{{count * 2 - 1}:pass}}
+"""
+
+snip.rv = anonomous_snippet
+`
+endsnippet
+
+snippet else
+else:
+	${0:${VISUAL}}
+endsnippet
+
+snippet elif
+elif ${1:condition}:
+	${0:${VISUAL}}
+endsnippet
+
+#############
+### While ###
+#############
+
+snippet while
+while ${1:condition}:
+	${0:${VISUAL}}
+endsnippet
+
+###########
+### For ###
+###########
+
+snippet for
+for ${1:item} in ${2:iterable}:
+	${0}
+endsnippet
