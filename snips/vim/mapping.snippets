@@ -1,0 +1,226 @@
+# Vim Mapping Snippets
+# Author:       AceofSpades5757
+# Version:      1.0.0
+# Last Change:  September 19, 2021
+
+
+####################################################
+### Normal, Visual, Select, and Operator-Pending ###
+####################################################
+# Standard
+
+snippet map "Mapping"
+map ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_noremap "Mapping (Non-Recursive)"
+noremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap "Remove Mapping"
+unmap ${1:mapping}
+endsnippet
+
+snippet unmap_clear "Remove ALL Mapping"
+mapclear
+endsnippet
+
+#############################
+### Insert & Command-Line ###
+#############################
+
+snippet map "Mapping: Insert & Command-Line Modes"
+map! ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_noremap "Mapping (Non-Recursive): Insert & Command-Line Modes"
+noremap! ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap "Remove Mapping: Insert & Command-Line Modes"
+unmap! ${1:mapping}
+endsnippet
+
+snippet unmap_clear "Remove ALL Mapping: Insert & Command-Line Modes"
+umapclear!
+endsnippet
+
+###################
+### Normal Mode ###
+###################
+
+snippet map_normal "Mapping: Normal Mode"
+nmap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_normal_noremap "Mapping (Non-Recursive): Normal Mode"
+nnoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_normal "Remove Mapping: Normal Mode"
+nunmap ${1:mapping}
+endsnippet
+
+snippet unmap_normal_clear "Remove ALL Mapping: Normal Mode"
+nmapclear
+endsnippet
+
+############################
+### Visual & Select Mode ###
+############################
+
+snippet map_visual-select "Mapping: Visual & Select Modes"
+vmap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_visual-select_noremap "Mapping (Non-Recursive): Visual & Select Modes"
+vnoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_visual-select "Remove Mapping: Visual & Select Modes"
+vunmap ${1:mapping}
+endsnippet
+
+snippet unmap_visual-select_clear "Remove ALL Mapping: Visual & Select Modes"
+vmapclear
+endsnippet
+
+###################
+### Visual Mode ###
+###################
+
+snippet map_visual "Mapping: Visual Mode"
+xmap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_visual_noremap "Mapping (Non-Recursive): Visual Mode"
+xnoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_visual "Remove Mapping: Visual Mode"
+xunmap ${1:mapping}
+endsnippet
+
+snippet unmap_visual_clear "Remove ALL Mapping: Visual Mode"
+xmapclear
+endsnippet
+
+###################
+### Select Mode ###
+###################
+
+snippet map_select "Mapping: Select Mode"
+smap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_select_noremap "Mapping (Non-Recursive): Select Mode"
+snoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_select "Remove Mapping: Select Mode"
+sunmap ${1:mapping}
+endsnippet
+
+snippet unmap_select_clear "Remove ALL Mapping: Select Mode"
+smapclear
+endsnippet
+
+#############################
+### Operator-Pending Mode ###
+#############################
+
+snippet map_operator_pending "Mapping: Operator-Pending Mode"
+omap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_operator_pending_noremap "Mapping (Non-Recursive): Operator-Pending Mode"
+onoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_operator_pending "Remove Mapping: Operator-Pending Mode"
+ounmap ${1:mapping}
+endsnippet
+
+snippet unmap_operator_pending_clear "Remove ALL Mapping: Operator-Pending Mode"
+omapclear
+endsnippet
+
+###################
+### Insert Mode ###
+###################
+
+snippet map_insert "Mapping: Insert Mode"
+imap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_insert_noremap "Mapping (Non-Recursive): Insert Mode"
+inoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_insert "Remove Mapping: Insert Mode"
+iunmap ${1:mapping}
+endsnippet
+
+snippet unmap_insert_clear "Remove ALL Mapping: Insert Mode"
+imapclear
+endsnippet
+
+##############################################
+### Insert, Command-Line, & Lang-Arg Modes ###
+##############################################
+
+snippet map_insert-command_line-lang_arg "Mapping: Insert, Command-Line, & Lang-Arg Modes"
+lmap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_insert-command_line-lang_arg_noremap "Mapping (Non-Recursive): Insert, Command-Line, & Lang-Arg Modes"
+lnoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_insert-command_line-lang_arg "Remove Mapping: Insert, Command-Line, & Lang-Arg Modes"
+lunmap ${1:mapping}
+endsnippet
+
+snippet unmap_insert-command_line-lang_arg_clear "Remove ALL Mapping: Insert, Command-Line, & Lang-Arg Modes"
+lmapclear
+endsnippet
+
+#########################
+### Command-Line Mode ###
+#########################
+
+snippet map_command_line "Mapping: Command-Line Mode"
+cmap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_command_line_noremap "Mapping (Non-Recursive): Command-Line Mode"
+cnoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_command_line "Remove Mapping: Command-Line Mode"
+cunmap ${1:mapping}
+endsnippet
+
+snippet unmap_command_line_clear "Remove ALL Mapping: Command-Line Mode"
+cmapclear
+endsnippet
+
+#########################
+### Terminal-Job Mode ###
+#########################
+
+snippet map_terminal_job "Mapping: Terminal-Job Mode"
+tmap ${1:trigger} ${2:action}
+endsnippet
+
+snippet map_terminal_job_noremap "Mapping (Non-Recursive): Terminal-Job Mode"
+tnoremap ${1:trigger} ${2:action}
+endsnippet
+
+snippet unmap_terminal_job "Remove Mapping: Terminal-Job Mode"
+tunmap ${1:mapping}
+endsnippet
+
+snippet unmap_terminal_job_clear "Remove ALL Mapping: Terminal-Job Mode"
+tmapclear
+endsnippet
