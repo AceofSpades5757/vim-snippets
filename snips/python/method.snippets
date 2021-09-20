@@ -1,0 +1,55 @@
+# Python Method Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.3
+# Last Change:  September 19, 2021
+
+
+snippet init "Init method"
+def __init__(self, ${1:args}):
+	${0}
+endsnippet
+
+snippet method "General method"
+def ${1:method_name}(self, ${2:arguments}):
+	${0}
+endsnippet
+
+snippet method_async "Async method"
+async def ${1:mname}(self, ${2:arg}):
+	${0}
+endsnippet
+
+snippet property "Class Property"
+@property
+def ${1:property}(self${2:, arguments}):
+	return ${3:value}
+endsnippet
+
+snippet self "self.attribute = attribute"
+self.${1:attribute} = $1
+endsnippet
+
+snippet repr "__repr__" bm
+def __repr__(self):
+	${1:pass}
+endsnippet
+snippet str "__str__" bm
+def __str__(self):
+	${1:pass}
+endsnippet
+
+
+snippet repr_all "All methods for string representation." bm
+def __repr__(self):
+	${1:pass}
+
+def __str__(self):
+	${2:pass}
+
+def __unicode__(self):
+	${3:pass}
+endsnippet
+post_jump "expand(snip)"
+snippet str_all "All methods for string representation." bm
+repr_all$1
+endsnippet
