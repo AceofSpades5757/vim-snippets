@@ -1,0 +1,60 @@
+# Python Common Functions Snippets
+# Author:       Kyle L. Davis
+# Version:      0.0.1
+# Last Change:  September 19, 2021
+
+
+snippet fibonnachi "The Fibonacci sequence." b
+from functools import cache
+
+
+@cache
+def fibonacci(nth_digit: int):
+	""" Find the nth digit of the Fibonacci sequence. """
+	if nth_digit <= 1:
+		return nth_digit
+	else:
+		return(fibonacci(nth_digit - 1) + fibonacci(nth_digit - 2))
+$0
+endsnippet
+
+
+snippet flatten_iterables "Flatten nested iterables." bm
+def flatten_list(nested_list: list or tuple) -> list:
+
+	supported_types = (list, tuple)
+
+	results = []
+	for item in nested_list:
+		if not isinstance(item, supported_types):
+			results.append(item)
+		else:
+			results.extend(flatten_list(item))
+
+	return results
+$0
+endsnippet
+
+
+snippet remove_tree "Forcefully remove path, recursively" bm
+def remove_tree(path):
+	shutil.rmtree(path, ignore_errors=False, onerror=handle_read_only)
+
+
+def handle_read_only(function, path, exception_info):
+
+	import errno, os, stat, shutil
+
+	exception_value = exception_info[1]
+
+	if function in (os.rmdir, os.remove) and exception_value.errno == errno.EACCES:
+		os.chmod(path,  # 0777
+			stat.S_IRWXU
+			| stat.S_IRWXG
+			| stat.S_IRWXO
+		)
+		function(path)
+	else:
+		raise
+$0
+endsnippet
