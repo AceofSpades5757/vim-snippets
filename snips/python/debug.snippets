@@ -1,0 +1,120 @@
+# Python Debug Snippets
+# Author:       AceofSpades5757
+# Version:      0.1.0
+# Last Change:  August 12, 2021
+
+
+###############
+### Helpers ###
+###############
+
+global !p
+def expand(snip, jump_pos=1):
+	if snip.tabstop != jump_pos:
+		return
+
+	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+
+##############
+### Basics ###
+##############
+
+snippet pprint
+__import__('pprint').pprint(${1:${VISUAL:to_print}})$0
+endsnippet
+
+snippet breakpoint "Simple breakpoint." bm
+breakpoint()
+endsnippet
+
+# embed ipython itself
+# Acts like a breakpoint
+snippet breakpoint_ipython
+__import__('IPython').embed()
+endsnippet
+post_jump "expand(snip)"
+snippet ipython_breakpoint "Description"
+breakpoint_ipython$1
+endsnippet
+
+##################
+### Decorators ###
+##################
+
+snippet decorator_debug "Debugs a function by printing values." bm
+def debug(function):
+
+	"""Print the function signature and return value"""
+
+	def wrapper_debug(*args, **kwargs):
+
+		args_repr = [repr(a) for a in args]					     # 1
+		kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]  # 2
+
+		signature = ", ".join(args_repr + kwargs_repr)		     # 3
+
+		print(f"Calling {function.__name__}({signature})")
+		value = function(*args, **kwargs)
+		print(f"{function.__name__!r} returned {value!r}")	     # 4
+
+		return value
+
+	return wrapper_debug
+endsnippet
+
+#########################
+### From Vim-Snippets ###
+#########################
+# Kept for reference
+
+# python debugger (pdb)
+snippet pdb
+__import__('pdb').set_trace()
+endsnippet
+
+# bpython debugger (bpdb)
+snippet bpdb
+__import__('bpdb').set_trace()
+endsnippet
+
+# ipython debugger (ipdb)
+snippet ipdb
+__import__('ipdb').set_trace()
+endsnippet
+
+# embed ipython itself
+snippet iem
+__import__('IPython').embed()
+endsnippet
+
+# remote python debugger (rpdb)
+snippet rpdb
+__import__('rpdb').set_trace()
+endsnippet
+
+# web python debugger (wdb)
+snippet wdb
+__import__('wdb').set_trace()
+endsnippet
+
+# ptpython
+snippet ptpython
+__import__('ptpython.repl', fromlist=('repl')).embed(globals(), locals(), vi_mode=${1:False}, history_filename=${2:None})
+endsnippet
+
+# python console debugger (pudb)
+snippet pudb
+__import__('pudb').set_trace()
+endsnippet
+
+# python console debugger remote (pudb)
+snippet pudbr
+from pudb.remote import set_trace
+set_trace()
+endsnippet
+
+# pdb in nosetests
+snippet nosetrace
+__import__('nose').tools.set_trace()
+endsnippet
