@@ -1,0 +1,69 @@
+# Liquid General Snippets
+# Author:       Kyle L. Davis
+# Version:      1.0.0
+# Last Change:  September 19, 2021
+
+
+extends liquid
+
+
+snippet variable "Liquid: Basic Variable" b
+{% assign var_1 = 'value' %}
+{{ place_variable_here }}
+endsnippet
+
+snippet if "Liquid: If Statement (Inline)"
+${0:description}
+{% if bool_expression %}Text if it's true. {% endif %}Text after the if statement, so always here.
+endsnippet
+
+snippet elseif "Liquid: If Elseif Else Statement (Supports Inline)"
+{% if bool_expression %}
+If block
+{% elsif bool_expression %}
+elsif block
+{% elsif bool_expression %}
+elsif block
+{% else %}
+else block
+{% endif %}
+endsnippet
+
+snippet ifelse "Liquid: If Else Statement (Supports Inline)"
+{% if bool_expression %}
+If block
+{% else %}
+else block
+{% endif %}
+endsnippet
+
+snippet comment "Liquid: Inline Comment"
+{% comment %} ${0:comment} {% endcomment %}
+endsnippet
+
+snippet block_comment "Liquid: Block Comment"
+{% comment %}
+${0:comment}
+{% endcomment %}
+endsnippet
+
+# Going up to 5, does 1 and 3, continues at 2, breaks at 4
+snippet for_loop "Liquid: For Loop"
+{% for i in (1..5) %}
+{% if i == 4 %}
+{% break %}
+{% elsif i == 2 %}
+{% else %}
+{{ i }}
+{% endif %}
+{% endfor %}
+endsnippet
+
+snippet str_functions "Liquid: string filters, etc."
+{{ var | prepend: "string" }
+{{ var | append: "string" }
+{% assign lowercase_var = var | downcase %}
+{% assign uppercase_var = var | upcase %}
+{{ var | capitalize }}
+{{ var | strip }}
+endsnippet
