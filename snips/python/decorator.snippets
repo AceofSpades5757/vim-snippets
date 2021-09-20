@@ -1,0 +1,162 @@
+# Python Decorator Snippets
+# Author:       AceofSpades5757
+# Version:      0.1.1
+# Last Change:  September 19, 2021
+
+
+#################
+### Functions ###
+#################
+
+snippet decorator_function "Decorator function." bm
+def ${1:decorator}(${2:function}):
+
+	def ${3:wrapper}(*args, **kwargs):
+
+		return $2(*args, **kwargs)
+
+	return $3
+endsnippet
+
+
+snippet decorator_function_async "Async Decorator Function" bm
+def ${1:async_decorator}(${2:original_async_function}):
+
+	async def ${3:wrapper}(*args, **kwargs):
+
+		# Work Before
+
+		# Run Async Function
+		results = await $2(*args, **kwargs)
+
+		# Work After
+
+		# Return results
+		return results
+
+	return $3
+endsnippet
+
+
+snippet decorator_function_with_arguments "Decorator function with arguments." bm
+def ${1:decorator_function_with_arguments}(${2:arguments}):
+
+	def ${3:decorator}(function):
+
+		def ${4:wrapper}(*args, **kwargs):
+
+			# Work in hear with $2
+			return function(*args, **kwargs)
+
+		return $4
+
+	return $3
+endsnippet
+
+
+snippet decorator_function_with_or_without_arguments "Decorator function that can be used with or without arguments." bm
+def ${1:decorator_function_with_or_without_arguments}(_function=None, *, ${2:arguments}):
+
+	def ${3:decorator}(function):
+
+		def ${4:wrapper}(*args, **kwargs):
+
+			# Here is where you can use $2
+			return function(*args, **kwargs)
+
+		return $4
+
+	if _function is None:
+		return $3
+	elif _function is not None:
+		return $3(_function)
+endsnippet
+
+# Can use something like a global variable to store a list of all the
+# functions, and names/etc., to be used at a later date.
+snippet decorator_function_unwrapped "Simple decorator function without wrap." bm
+def ${1:decorator}(function):
+
+	# Do something
+
+	# Simply return the function with nothing else done to it.
+	return function
+endsnippet
+
+###############
+### Classes ###
+###############
+
+snippet decorator_class "Decorator class." bm
+class ${1:Decorator}:
+
+	def __init__(self, function):
+		self.function = function
+
+	def __call__(self, *args, **kwargs):
+		return self.function(*args, **kwargs)
+endsnippet
+
+snippet decorator_class_with_or_without_arguments "Decorator class that can be used with or without arguments." bm
+class _${1:Decorator}:
+
+	def __init__(self, function, ${2:arguments}):
+
+		self.function = function
+
+	def __call__(self, *args, **kwargs):
+
+		return self.function(*args, **kwargs)
+
+
+def $1(function=None, $2):
+	if function:
+		return _$1(function)
+	else:
+		def wrapper(function):
+			return _$1(function, $2)
+
+		return wrapper
+endsnippet
+
+################
+### Advanced ###
+################
+
+
+snippet decorator_count_runs "Count each time the function is run that it is decorated by." bm
+""" Using function attributes with decorators.
+
+By using a function attribute on the function that it's applied to, it trackes
+each time that function is used.
+"""
+def decorator(function):
+
+	function.count = 0
+
+	def wrapper(*args, **kwargs):
+
+		function.count += 1
+		print(f'Count: {function.count} Function: {function.__name__}')
+		return function(*args, **kwargs)
+endsnippet
+
+
+snippet decorator_count_runs-all "Counts each time every function it decorates is called/run, sum of all the function calls." bm
+""" Using function attributes with decorators.
+
+By putting the decorator.count in the decorator, as a function attribute, this
+causes persistence amoung _all_ the function calls it decorates.
+"""
+def decorator(function):
+
+	decorator.count = 0
+
+	def wrapper(*args, **kwargs):
+
+		decorator.count += 1
+		print(f'Count: {decorator.count} Function: {function.__name__}')
+		return function(*args, **kwargs)
+
+	return wrapper
+endsnippet
