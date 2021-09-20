@@ -1,0 +1,52 @@
+# Vim Plugin Snippets
+# Author:       AceofSpades5757
+# Version:      1.0.0
+# Last Change:  September 19, 2021
+
+
+################
+### Vim-Plug ###
+################
+
+# Having a forward slash inside the placeholder breaks my syntax highlighting
+snippet plug "vim-plug Plugin definition"
+" github_user/repo
+Plug '${1:${VISUAL:github_user_repo}}'
+endsnippet
+
+snippet plug_do "vim-plug Plugin definition with { 'do': '' }"
+Plug '${1}', { 'do': '${0}' }
+endsnippet
+
+snippet plug_on "vim-plug Plugin definition with { 'on': '' }"
+Plug '${1}', { 'on': '${0}' }
+endsnippet
+
+snippet plug_for "vim-plug Plugin definition with { 'for': '' }"
+Plug '${1}', { 'for': '${0}' }
+endsnippet
+
+snippet plug_br "vim-plug Plugin definition with { 'branch': '' }"
+Plug '${1}', { 'branch': '${0}' }
+endsnippet
+
+snippet plug_tag "vim-plug Plugin definition with { 'tag': '' }"
+Plug '${1}', { 'tag': '${0}' }
+endsnippet
+
+snippet plug_ssh "vim-plug Plugin definition for SSH repos"
+let g:plug_url_format = 'git@github.com:%s.git'
+Plug '${1}',
+\ {
+	\ 'branch': '$2',
+\ }$0
+unlet g:plug_url_format
+endsnippet
+
+##############
+### Vundle ###
+##############
+
+snippet plug_vundle "Vundle plugin"
+Plugin '${0:gh_user/repo}'
+endsnippet
