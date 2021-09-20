@@ -1,0 +1,14 @@
+# Python Snippets for `graphviz` module
+# Author:       AceofSpades5757
+# Version:      0.0.1
+# Last Change:  2020 July 5
+
+# Node
+snippet gv_node "Graphviz node in Python" b
+${1:dot}.node('${2:Name}', '${3:Label}')
+endsnippet
+
+# Edge
+snippet gv_edge "Graphviz edge in Python" b
+${1:dot}.edge('${2:Node A}', '${3:Node B}', '${4:Label}')
+endsnippet
