@@ -1,0 +1,84 @@
+# Markdown Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.3
+# Last Change:  September 19, 2021
+
+extends markdown, html, css
+extends vimwiki
+
+##############
+### Global ###
+##############
+
+global !p
+def expand(snip, jump_pos=1):
+	if snip.tabstop != jump_pos:
+		return
+
+	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+
+#############
+### Basic ###
+#############
+
+# Comment
+snippet comment "Markdown or HTML comment"
+<!-- ${1:${VISUAL:Comment}} -->
+endsnippet
+
+# Header
+snippet "h([1-6])" "Dynamic Markdown header" br
+`!p snip.rv = int(match.group(1)) * '#'` ${0:${VISUAL:Title}}
+endsnippet
+
+#############
+### Links ###
+#############
+
+# URL or Email
+snippet url "A Markdown URL or email"
+<${1:${VISUAL:URL or URI}}>
+endsnippet
+
+# URL
+snippet link "A Markdown link"
+[${1:Text}](http://${2:Address})
+endsnippet
+
+# Image
+# `alt` and `title` are optional
+snippet img "A Markdown image"
+![${1:alt}](${2:src} "${3:title}")
+endsnippet
+
+# Reference Link
+snippet ref_link "A Markdown reference link"
+[${1:Text}][${2:Label}]
+<!-- Put this where you want the link to go -->
+[$2]: <${3:URL}> "${4:Title (Optional)}"
+endsnippet
+
+#######################
+### Extended Syntax ###
+#######################
+# Not compatible with most Markdown syntax
+
+# Checkmark
+snippet checkmark "Markdown checkmark"
+- [ ] ${1:${VISUAL:Todo}}
+endsnippet
+post_jump "expand(snip)"
+snippet cm "Markdown checkmark" b
+checkmark$1
+endsnippet
+
+# Pandoc
+snippet metadata_block "Metadata block for Pandoc"
+---
+${0:${VISUAL:metadata}}
+title: My Title
+author: My Name
+date: April 13, 2021
+...
+endsnippet
