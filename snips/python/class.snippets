@@ -1,0 +1,224 @@
+# Python Class Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.1
+# Last Change:  2021 May 23
+
+
+snippet class
+class ${1:class_name}:
+	""" ${0:description} """
+endsnippet
+
+snippet class_super "Class with init and docstring"
+class ${1:ClassName}(${2:Parent(s)}):
+	"""${3:docstring for $1}"""
+	def __init__(self, ${4:arg}):
+		${5:super($1, self).__init__()}
+		self.$4 = $4
+		${0}
+endsnippet
+
+snippet class_init "Class with init and docstring"
+class ${1:class_name}:
+	"""${2:description}"""
+	def __init__(self, ${3:args}):
+		${0}
+endsnippet
+
+snippet class_basic "A type of way to write a class"
+
+class Vehicles(object):
+	"""
+	Summary or Description
+
+	Attributes
+	----------
+	arg_1 : str
+		This is where we store arg_1,
+	"""
+
+	def __init__(self, arg_1, *args, **kwargs):
+		"""Description for the initialization
+
+		Parameters
+		----------
+		arg_1 : str
+				The arg is used for...
+		*args
+				The variable arguments are used for...
+		**kwargs
+				The keyword arguments are used for...
+		"""
+
+		pass
+endsnippet
+
+##############################
+### Specific Class Methods ###
+##############################
+#
+# Emulate Types
+# * Containers
+# * Context Managers
+# * Numeric (number)
+#
+# Special Access Methods
+# * Attribute Access (dict)
+# * Descriptor Access (list)
+# * Comparisons
+
+snippet class_container "Methods for a Container Type" bm
+def __len__(self):
+	${1:pass}
+
+def __getitem__(self, key):
+	${2:pass}
+
+def __setitem__(self, key, value):
+	${3:pass}
+
+def __delitem__(self, key):
+	${4:pass}
+
+def __iter__(self):
+	${5:pass}
+
+def __reversed__(self):
+	${6:pass}
+
+def __contains__(self, item):
+	${7:pass}
+endsnippet
+
+snippet class_context "Methods for a Context Manager" bm
+def __enter__(self):
+	${1:pass}
+
+def __exit__(self, exc_type, exc_value, traceback):
+	${2:pass}
+endsnippet
+
+snippet class_attribute "Methods for customizing attribute access." bm
+def __getattr__(self, name):
+	${1:pass}
+
+def __setattr__(self, name, value):
+	${2:pass}
+
+def __delattr__(self, name):
+	${3:pass}
+endsnippet
+
+snippet class_descriptors "methods implementing descriptors (get, set, delete)." bm
+def __get__(self, instance, owner):
+	${1:pass}
+
+def __set__(self, instance, value):
+	${2:pass}
+
+def __delete__(self, instance):
+	${3:pass}
+endsnippet
+
+snippet class_comparison "methods implementing rich comparison" bm
+def __eq__(self, other):
+	${1:pass}
+
+def __ne__(self, other):
+	${2:pass}
+
+def __lt__(self, other):
+	${3:pass}
+
+def __le__(self, other):
+	${4:pass}
+
+def __gt__(self, other):
+	${5:pass}
+
+def __ge__(self, other):
+	${6:pass}
+
+def __cmp__(self, other):
+	${7:pass}
+endsnippet
+
+snippet class_arithmetic "Methods for emulating a numeric type (add, sub, etc)." bm
+def __add__(self, other):
+	${1:pass}
+
+def __sub__(self, other):
+	${2:pass}
+
+def __mul__(self, other):
+	${3:pass}
+
+def __div__(self, other):
+	${4:pass}
+
+def __truediv__(self, other):
+	${5:pass}
+
+def __floordiv__(self, other):
+	${6:pass}
+
+def __mod__(self, other):
+	${7:pass}
+
+def __divmod__(self, other):
+	${8:pass}
+
+def __pow__(self, other):
+	${9:pass}
+
+def __lshift__(self, other):
+	${10:pass}
+
+def __rshift__(self, other):
+	${11:pass}
+
+def __and__(self, other):
+	${12:pass}
+
+def __xor__(self, other):
+	${13:pass}
+
+def __or__(self, other):
+	${14:pass}
+
+def __neg__(self):
+	${15:pass}
+
+def __pos__(self):
+	${16:pass}
+
+def __abs__(self):
+	${17:pass}
+
+def __invert__(self):
+	${18:pass}
+
+def __complex__(self):
+	${19:pass}
+
+def __int__(self):
+	${20:pass}
+
+def __long__(self):
+	${21:pass}
+
+def __float__(self):
+	${22:pass}
+
+def __oct__(self):
+	${22:pass}
+
+def __hex__(self):
+	${23:pass}
+
+def __index__(self):
+	${24:pass}
+
+def __coerce__(self, other):
+	${25:pass}
+endsnippet
