@@ -1,0 +1,49 @@
+# Anki Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.1
+# Last Change:  2021 April 25
+# Description
+#
+#	Snippets to use with Anki.
+#	WARNING: Including some Latex stuff here (see `extends latex`)
+
+extends html
+
+
+snippet anki_close_fill "Anki fill in the blank" i
+{{c1::${1:${VISUAL:Answer}}}}$0
+endsnippet
+
+
+# Credit: https://raw.githubusercontent.com/MFreidank/AnkiVim/master/ankivim/UltiSnips/anki_vim.snippets
+# Names have been prepended with anki-, to avoid any issues...
+extends latex
+
+priority -50
+
+snippet anki-la "Block [latex]"
+[latex]
+${1}
+[/latex]
+endsnippet
+
+snippet anki-lai "Inline [latex]"
+[latex]${1}[/latex]
+endsnippet
+
+snippet anki-img "image-path"
+<img = src ${1:/tmp/}$0 />
+$2
+endsnippet
+
+snippet "anki-c([c\d]){1}" "{{c1::Cloze}}" r
+{{c`!p snip.rv = match.group(1) if match.group(1) != 'c' else "1"`::${1:Cloze}}}
+endsnippet
+
+snippet anki-$$ "[$]MATH[/S]" iA
+[$]${1:MATH}[/$]
+endsnippet
+
+snippet anki-lfrac "\frac{}{}"
+\frac{${1}}{${2}}${0}
+endsnippet
