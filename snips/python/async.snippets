@@ -1,0 +1,71 @@
+# Python Asyncio Snippets
+# Author:       Kyle L. Davis
+# Version:      0.1.0
+# Last Change:  September 19, 2021
+# TODO Update
+
+
+snippet async_single "Single async function" b
+import asyncio
+
+
+async def async_function():
+	# Run something that supports async io
+	await asyncio.sleep(1)
+endsnippet
+
+
+snippet async_chain_main "Lots of async" b
+import asyncio
+
+
+async def async_function(delay: int = 1) -> None:
+	# Run something that supports async io
+	await asyncio.sleep(delay)
+	return None
+
+
+async def chain(message: str = 'Hello World') -> (None, None):
+	# Chain awaitable functions
+	print(message)
+	result_1 = await async_function(1)
+	result_2 = await async_function(2)
+	return result_1, result_2
+
+
+async def main():
+	# Gather chained async functions all together
+	await asyncio.gather(
+			*[
+				chain(letter)
+				for letter in 'ABCDEFG'
+				]
+			)
+
+
+asyncio.run(main())
+endsnippet
+
+snippet async_chain "Function to chain async functions." b
+async def chain(*args):
+	results = []
+	for async_def in args:
+		await async_def
+	return results
+endsnippet
+
+snippet async_gather "Function to gather async functions." b
+async def agather(*args):
+	results = await asyncio.gather(*args)
+	return results
+endsnippet
+
+snippet async_task "Async with tasks" b
+TBA
+endsnippet
+snippet async_queue "Async with queues" b
+TBA
+endsnippet
+snippet async_for "Async with queues" b
+TBA
+endsnippet
