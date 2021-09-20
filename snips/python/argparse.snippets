@@ -1,0 +1,36 @@
+# Python ArgParse Snippets
+# Author:       AceofSpades5757
+# Version:      0.0.1
+# Last Change:  September 19, 2021
+#
+# Needs optional specifically specified.
+
+
+snippet argparse_setup "Argparse: Setup argparser."
+import argparse
+${1:parser} = argparse.ArgumentParser()$0
+endsnippet
+
+snippet argparse_add_subparser "Argparse: Add supparser."
+${1:sub_parser} = ${2:parser}.add_subparsers().add_parser("${3:sub_parser_name}")$0
+endsnippet
+
+snippet argparse_add_pos_argument "Argparse: Add argument."
+${1:parser}.add_argument("${2:short}")$0
+endsnippet
+
+snippet argparse_add_pos_argument_full "Argparse: Add argument (all arguments)."
+${1:parser}.add_argument("${1:short}", "${2:long}", default=${3:None}, help="${4:Help text}")$0
+endsnippet
+
+snippet argparse_add_nargs_argument "Argparse: Add nargs argument."
+${1:parser}.add_argument("${1:short}", nargs="${2:*?[1-9]}", default"${3:None}, help="${4:Help text}")$0
+endsnippet
+
+snippet argparse_add_bool_argument "Argparse: Add bool arguments (sort of)."
+${1:parser}.add_argument("${1:short}", "${2:long_arg}", action="${3:store_true or store_false}", default=${4:True or False}, help="${5:Help text}")$0
+endsnippet
+
+snippet argparse_parse_arguments "Argparse: Parse arguments."
+${1:args} = ${2:parser}.parse_args()$0
+endsnippet
