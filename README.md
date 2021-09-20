@@ -6,6 +6,12 @@ Collection of snippets used in conjunction with UltiSnips for Vim and Neovim.
 
 Cleaned for public use and readability.
 
+# Contents
+
+`snips`
+
+* Has snippets inside, layed out as used by UltiSnips.
+
 # Credit
 
 * [UltiSnips](https://github.com/SirVer/ultisnips)
