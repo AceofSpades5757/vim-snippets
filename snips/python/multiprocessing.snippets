@@ -1,0 +1,46 @@
+# Python Multiprocessing Snippets
+# Author:       Kyle L. Davis
+# Version:      0.0.1
+# Last Change:  September 19, 2021
+#
+# Also see async.snippets
+# Also see threading.snippets
+
+# from Corey Schafer's video
+# Best for CPU-intensive tasks (math, pandas)
+# Use threading for IO-bound tasks (networking, read/write, etc.)
+snippet multiprocessing "Basic multiprocessing"
+import time
+import random
+import concurrent.futures
+def do_something(seconds):
+	print(f'Sleeping for {seconds} second(s)...')
+	time.sleep(seconds)
+	return f'Done Sleeping for {seconds} second(s).'
+
+
+start = time.perf_counter()
+with concurrent.futures.ProcessPoolExecutor() as executor:
+	# Multiple
+	seconds = [random.randint(1, 10) for _ in range(5)]
+	# Returns future objects - Can use as_completed to show as completed.
+	results = [executor.submit(do_something, sec) for sec in seconds]
+	# Maps an iterable - Only returns results
+	# results = executor.map(do_something, seconds)
+
+	# Single
+	# executor.submit(do_something, 1.5)
+
+	# Will wait in order...
+	# Can check for errors here
+	# for result in results:
+		# print(result)
+
+	for future in concurrent.futures.as_completed(results):
+		print(future.result())
+
+	print(results)
+finish = time.perf_counter()
+
+print(f'Finished in {round(finish-start, 2)} second(s).')
+endsnippet
