@@ -1,0 +1,111 @@
+# Python Timing Snippets
+# Author:      AceofSpades5757
+# Version:     0.1.0
+# Last Change: August 12, 2021
+
+
+###############
+### Globals ###
+###############
+
+global !p
+def expand(snip, jump_pos=1):
+	if snip.tabstop != jump_pos:
+		return
+
+	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+
+################################
+### Time Scripts & Functions ###
+################################
+
+snippet time_script "Measure the time a script takes." bm
+start = __import__('time').perf_counter()
+print("Starting...")
+
+${1:${VISUAL:main()}}
+
+elapsed = __import__('time').perf_counter() - start
+print(f"Executed in {elapsed:0.2f} seconds.")
+endsnippet
+
+
+snippet timeit "Time how long a function takes." bm
+times_to_run = ${1:1_000}
+
+print(timeit(${2:function_to_run}, number=times_to_run))$0
+endsnippet
+
+
+snippet timeit_with_setup "Time how long a function takes." bm
+times_to_run = ${1:1_000}
+setup = """
+print("Running timeit...")
+"""
+
+print(timeit(${2:function_to_run}, setup=setup, number=times_to_run))$0
+endsnippet
+
+snippet timeit_function_in_function "Time how long a function takes using a function." bm
+import asyncio
+import inspect
+from timeit import Timer
+from typing import Callable
+
+
+def time_function(
+	function: Callable,
+	positional_arguments: list or tuple=None,
+	keyword_arguments: dict=None,
+	stdout: str=None,
+	times_to_run: int=1_000,
+):
+
+	if positional_arguments is None:
+		positional_arguments = []
+	if keyword_arguments is None:
+		keyword_arguments = {}
+
+	if inspect.iscoroutinefunction(function):
+		full_function = lambda: asyncio.run(function(*positional_arguments, **keyword_arguments))
+		if stdout is None:
+			stdout = f'Running timeit for async {function.__name__}.'
+		setup = f'print("{stdout}")'
+	else:
+		full_function = lambda: function(*positional_arguments, **keyword_arguments)
+		if stdout is None:
+			stdout = f'Running timeit for {function.__name__}.'
+		setup = f'print("{stdout}")'
+
+	timer = Timer(full_function, setup=setup)
+	results = timer.timeit(number=times_to_run)
+	print(results)
+endsnippet
+
+###############
+### Helpers ###
+###############
+
+snippet slow_down "Slow down a function." bm
+def slow_down(seconds=1):
+	""" Sleep \`seconds\` seconds before calling the function. """
+	import time
+
+	def decorator(function):
+
+		def wrapper(*args, **kwargs):
+
+			# seconds = kwargs.get('seconds', 1)
+			time.sleep(seconds)
+
+			return function(*args, **kwargs)
+
+		return wrapper
+
+	return decorator
+endsnippet
+post_jump "expand(snip)"
+snippet decorator_slow_down "Slow down a function."
+slow_down$1
+endsnippet
