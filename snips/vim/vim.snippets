@@ -1,0 +1,267 @@
+# Vim General Snippets
+# Author:       AceofSpades5757
+# Version:      1.3.2
+# Last Change:  September 19, 2021
+
+
+###############
+### Globals ###
+###############
+
+# Today's Date: Month DD, YYYY
+global !p
+from datetime import date
+today = date.today().strftime('%B %d, %Y')
+clean_today = ' '.join([i.lstrip('0') for i in today.split()])
+today = clean_today
+endglobal
+
+# Textwidth
+global !p
+import vim
+textwidth = int(vim.eval("&textwidth"))
+indent_width = int(vim.eval("&shiftwidth"))
+endglobal
+
+# Authorship Information
+global !p
+from types import SimpleNamespace
+
+
+# SimpleNamespace can be replaced with Class
+# These are variables set in _vimrc
+# * `let g:snips_author = "My Name"`
+# * `let g:snips_email = "my.email@email.com"`
+# * `let g:snips_github = "MyGitHubUsername123"`
+author = SimpleNamespace(
+	name=vim.vars.get('snips_author').decode('utf-8'),
+	email=vim.vars.get('snips_email').decode('utf-8'),
+	github=vim.vars.get('snips_github').decode('utf-8'),
+)
+endglobal
+
+global !p
+def expand(snip, jump_pos=1):
+	if snip.tabstop != jump_pos:
+		return
+
+	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+endglobal
+
+###############
+### Headers ###
+###############
+
+snippet header_plugin "Header for Vim scripts/plugins."
+" Plugin:      ${1:`!p from pathlib import Path; snip.rv = Path(vim.current.buffer.name).stem`}
+" Author:      ${2:`!p snip.rv = author.name`}
+" Version:     0.0.1
+" Modified:    `!v strftime("%B %d, %Y")`
+" Description:
+"
+" `!p snip.rv = ' ' * indent_width`${2:Description}
+" `!p snip.rv = ' ' * indent_width`
+
+endsnippet
+
+snippet header_filetype "Header for filetype plugins."
+" `!p snip.rv = snip.basename.capitalize()` Filetype Plugin
+" `!p snip.rv = snip.fn`:   ${1:My Vim Script}
+" Language: `!p snip.rv = snip.ft.replace('.','').capitalize()`
+" Author:   `!p snip.rv = author.name`
+" Modified: `!p snip.rv = today`
+" Version:  0.0.1
+$0
+endsnippet
+
+snippet divider "A dynamic divider by textwidth"
+`!p snip.rv = textwidth * '"'`
+endsnippet
+
+##############
+### Basics ###
+##############
+
+snippet let "Assign variable."
+let ${1:variable} = ${0:value}
+endsnippet
+
+snippet set
+set ${1:setting}=${0:value}
+endsnippet
+
+snippet set_null "Set option (option takes no value)."
+set ${1:setting}
+endsnippet
+
+snippet set_toggle "Toggle boolean option."
+set ${1:setting}!
+endsnippet
+
+################
+### Commands ###
+################
+
+snippet command "Basic command."
+command! ${1:MyCommand} ${2:command}
+endsnippet
+
+# Send range to command and to function
+snippet command_range "Command sends range to function"
+command! -range=% ${1:FunctionAndCommandName} <line1>,<line2>call $1()
+function! $1() range
+	" Returns the range as a string (getline gives a list)
+	$0
+	return join(getline(a:firstline, a:lastline), "\n")
+endfunction
+endsnippet
+
+snippet command_function "Command that calls a function" b
+command! ${1:FunctionAndCommandName} call $1(${2:arguments})
+function! $1($2) ${3:Options}
+$0
+endfunction
+endsnippet
+post_jump "expand(snip)"
+snippet function_command "(Alias) Command that calls a function" b
+command_function$1
+endsnippet
+
+#################
+### Functions ###
+#################
+
+snippet function "Basic Vim function" bm
+function! ${1:FunctionName}(${2:arguments}) ${3:Options}
+	${0:${VISUAL:Function Definition}}
+endfunction
+endsnippet
+
+# Send range to command and to function
+snippet function_range "Function with range as input" bm
+function! MyFunction() range
+	" e.g. 1,4call MyFunction()
+	return join(getline(a:firstline, a:lastline), "\n")
+endfunction
+endsnippet
+
+# Colored echo
+snippet echo_colored "Vim echo in color" bm
+function! EchoWarning(message)
+	echohl WarningMsg
+	echo "Warning"
+	echohl None
+	" Add to echo
+	echon ': ' a:message
+endfunction
+
+call EchoWarning('test')
+endsnippet
+
+snippet command_completion "Description" b
+" 1 argument for example
+" 3 options to autocomplete
+command! -nargs=1 -complete=customlist,FunctionComplete MyCommand echo <q-args>
+function! FunctionComplete(ArgLead, CmdLine, CursorPos)
+
+	" ArgLead - Leading portion of the argument
+	" CmdLine - The entire command line
+	" CursorPos - the cursor position (byte index)
+
+	let argument_options = [
+		\ 'option_1',
+		\ 'option_2',
+		\ 'option_3',
+	\ ]
+
+	py3 import re
+	py3 argument_options = vim.eval('argument_options')
+	py3 arg_lead = vim.eval('a:ArgLead')
+	py3 matches = [i for i in argument_options if re.match(arg_lead + '.*', i)]
+
+	return py3eval('matches')
+
+endfunction
+endsnippet
+
+################################
+### Error/Exception Handling ###
+################################
+
+snippet try "try/catch statement"
+try
+	${1:${VISUAL}}
+catch ${2}
+	${0}
+endtry
+endsnippet
+
+snippet throw "Throw/Raise Exception." bm
+throw "${1:exception}"
+endsnippet
+post_jump "expand(snip)"
+snippet raise "Throw/Raise Exception."
+throw$1
+endsnippet
+
+####################
+### Control Flow ###
+####################
+
+snippet for "for ... in loop"
+for ${1} in ${2}
+	${0:${VISUAL}}
+endfor
+endsnippet
+
+snippet for_dict "for [key, value] in loop"
+for [${1:key}, ${2:value}] in items(${3:dict})
+	${0}
+	unlet $1 $2
+endfor
+endsnippet
+
+snippet while "while loop"
+while ${1}
+	${0:${VISUAL}}
+endw
+endsnippet
+
+snippet if "Basic Vim if statement"
+if ${1:Condition}
+	${2:${VISUAL:Statements}}
+endif
+endsnippet
+snippet iif "Basic Vim if statement"
+if ${1:Condition}
+	${2:Statements}
+elseif ${3:Condition}
+	${4:Statements}
+endif
+endsnippet
+snippet iiif "Basic Vim if statement"
+if ${1:Condition}
+	${2:Statements}
+elseif ${3:Condition}
+	${4:Statements}
+else
+	${5:Statements}
+endif
+endsnippet
+
+###############
+### Helpers ###
+###############
+
+# Save and Reset View, including cursor
+snippet view_save-and-restore "Save View, and Cursor, and Reset."
+let current_view = winsaveview()
+
+${1:" Code to Run}
+
+call winrestview(current_view)
+endsnippet
+post_jump "expand(snip)"
+snippet cursor_save "Save View, and Cursor, and Reset." bm
+view_save-and-restore$1
+endsnippet
