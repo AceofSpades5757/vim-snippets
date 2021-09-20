@@ -1,0 +1,36 @@
+# Python User Management Snippets
+# Author:       AceofSpades5757
+# Version:      0.2.0
+# Last Change:  2021 June 6
+
+
+# Linux & Windows
+snippet is_admin "Checks if running as admin on Linux and Windows." b
+import ctypes
+import os
+# Check if admin
+try:                    # Linux
+	is_admin = os.geteuid() == 0
+except AttributeError:  # Windows
+	is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+endsnippet
+post_jump "expand(snip)"
+snippet admin "Checks if running as admin on Linux and Windows."
+is_admin$1
+endsnippet
+
+snippet user_current "Get current user" bm
+# Only have this working for Linux
+if sys.platform != 'win32':
+	from pwd import getpwnam
+
+current_user = os.environ.get('SUDO_USER', 0)
+if sys.platform != 'win32' and is_admin:
+	current_user = getpwnam(current_user).pw_uid
+endsnippet
+# Only have this working for Linux
+snippet set_user "Set current user" bm
+# Linux
+# Must have sudo priveledges to impersonate others
+os.seteuid(user)
+endsnippet
