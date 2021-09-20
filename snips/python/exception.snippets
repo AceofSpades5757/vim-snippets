@@ -1,0 +1,52 @@
+# Python Exceptions Snippets
+# Author:       AceofSpades5757
+# Version:      0.1.0
+# Last Change:  September 19, 2021
+
+
+##################
+### Try/Except ###
+##################
+
+snippet try "Try/Except"
+try:
+	${1:${VISUAL}}
+except ${2:Exception} as ${3:e}:
+	${0:raise $3}
+endsnippet
+
+snippet try_except_else "Try/Except/Else"
+try:
+	${1:${VISUAL}}
+except ${2:Exception} as ${3:e}:
+	${4:raise $3}
+else:
+	${0}
+endsnippet
+
+snippet try_except_finally "Try/Except/Finally"
+try:
+	${1:${VISUAL}}
+except ${2:Exception} as ${3:e}:
+	${4:raise $3}
+finally:
+	${0}
+endsnippet
+
+snippet try_except_else_finally "Try/Except/Else/Finally"
+try:
+	${1:${VISUAL}}
+except ${2:Exception} as ${3:e}:
+	${4:raise $3}
+else:
+	${5}
+finally:
+	${0}
+endsnippet
+
+snippet try_minimal "Try/Except" bm
+try:
+	${1:${VISUAL}}
+except Exception:
+	pass
+endsnippet
