@@ -1,7 +1,7 @@
 # Python Snippets
 # Author:      AceofSpades5757
-# Version:     1.0.0
-# Last Change: September 17, 2021
+# Version:     1.0.1
+# Last Change: September 21, 2021
 
 ###############
 ### Helpers ###
@@ -68,20 +68,44 @@ endsnippet
 
 snippet switch_statement "Basic switch statement implementation (Not Recommended: Use Class)." bm
 ${1:switcher} = {
-"option_1": lambda arg_1, arg_2:
-	pass,
-"option_2": lambda arg_1, arg_2:
-	pass
-"option_3": lambda arg_1, arg_2:
-	pass
+	"option_1": lambda arg_1, arg_2:
+		pass,
+	"option_2": lambda arg_1, arg_2:
+		pass
+	"option_3": lambda arg_1, arg_2:
+		pass
 
-"default": lambda arg_1, arg_2:
-	pass
+	"default": lambda arg_1, arg_2:
+		pass
 }
 
 ${2:mediary_function} = $1.get(option, $1['default'])
-$2(argument_1, argument_2)
-${0:description}
+$2(argument_1, argument_2)$0
+endsnippet
+
+snippet switch_statement_class "Switch Statement using a Class." bm
+class SwitchCase:
+	""" Implement Switch Case Statement using Class. """
+
+	def switch(self, case):
+
+		default = "Incorrect Case"
+
+		return getattr(self, 'case_' + str(case), lambda: default)()
+
+	def case_1(self):
+		return "Case 1"
+
+	def case_2(self):
+		return "Case 2"
+
+	def case_3(self):
+		return "Case 3"
+
+switch_case = SwitchCase()
+
+print(switch_case.switch(1))
+print(switch_case.switch(0))$0
 endsnippet
 
 ################
