@@ -175,3 +175,10 @@ $1
 ${0:$1}
 ${0:$1}
 endsnippet
+
+snippet snippet_context "Snippet with a context requirement (expression evals to True/False)."
+context "${1:boolean_python_expression}"
+`!p snip.rv = "snippet"` ${2:snippet_name} "${3:snippet_description}"
+${4:snippet}
+`!p snip.rv = "endsnippet"`$0
+endsnippet
