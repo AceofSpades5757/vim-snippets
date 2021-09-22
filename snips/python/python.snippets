@@ -173,7 +173,7 @@ endsnippet
 ### Currency ###
 ################
 
-snippet currency-str_to_float "Convert string to float (Pandas/Numpy)." b
+snippet currency-str_to_float "Numpy/Pandas: Convert string to float." b
 # Take series
 str_to_float = lambda series: series['Withdrawals'].str.replace('$', '', regex=False).str.replace(',', '', regex=False).astype(float)
 endsnippet
@@ -219,6 +219,11 @@ endsnippet
 
 snippet regex_group_reference "Regex named group reference"
 # https://docs.python.org/3/library/re.html#index-17
+endsnippet
+
+snippet re_email "Email regex." b
+import re
+re_email = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
 endsnippet
 
 ######################
