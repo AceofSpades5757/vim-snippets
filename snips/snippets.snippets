@@ -18,6 +18,7 @@
 # e - Context
 #
 
+
 ###############
 ### Globals ###
 ###############
@@ -71,6 +72,26 @@ snippet reserved "Allows reserved work, like `endsnippet` inside a snippet"
 `!p snip.rv = '\`!p snip.rv = "'`${1:${VISUAL:reserved_word}}"\`$0
 endsnippet
 
+snippet priority "Set priority for all following snippets." b
+priority ${1:0}
+endsnippet
+
+snippet priority_wrap "Set priority for following snippet(s), then set back to default." b
+priority ${1:100}
+${2:${VISUAL:Snippet(s)}}
+priority ${1:0}
+endsnippet
+
+priority 1  # Do not use placeholder snippet that exists
+snippet escape_placeholder "Escape placeholders." i
+`!p snip.rv = '$\\'`${1:1}
+endsnippet
+priority 0
+
+#####################
+### Interpolation ###
+#####################
+
 snippet interpolation_python "Basic Python Interpolation"
 `!p snip.rv = '\`!p snip.rv = '`${1:string}\`$0
 endsnippet
@@ -84,6 +105,34 @@ endsnippet
 snippet interpolation_vim "Basic Vim Interpolation"
 `!p snip.rv = '\`!v '`${1:string_expression}\`$0
 endsnippet
+
+###############
+### Actions ###
+###############
+# Special snip attributes are noted for reference.
+
+snippet post_expand "Pre Expand. Following snippet will run Python code bfore snippet is expanded from its name/trigger." b
+pre_jump "${1:Python code that has access to global snip}"
+endsnippet
+
+# snip.snippet_start
+# snip.snippet_end
+snippet post_expand "Post Expand. Following snippet will run Python code after snippet is expanded from its name/trigger." b
+post_expand "${1:Python code that has access to global snip}"
+endsnippet
+
+# 'snip.tabstop' - number of tabstop jumped onto;
+# 'snip.jump_direction' - '1' if jumped forward and '-1' otherwise;
+# 'snip.tabstops' - list with tabstop objects, see above;
+# 'snip.snippet_start' - (line, column) of start of the expanded snippet;
+# 'snip.snippet_end' - (line, column) of end of the expanded snippet;
+# 'snip.expand_anon()' - alias for 'UltiSnips_Manager.expand_anon()';
+snippet post_jump "Post Jump. Following snippet will run Python code after each jump." b
+post_jump "${1:Python code that has access to global snip}"
+endsnippet
+# Notable use cases:
+# * expand another snippet after jump
+# * anonymous snippet after last jump
 
 ###################
 ### Placholders ###
@@ -138,7 +187,7 @@ endsnippet
 ### Snippets ###
 ################
 
-snippet snippet "Basic snippet"
+snippet snippet "Basic snippet" b
 snippet ${1:Trigger} "${2:Description}" ${3:Options}
 ${0:${VISUAL:Snippet}}
 `!p snip.rv = "endsnippet"`
@@ -148,13 +197,13 @@ snippet snippet_basic "Description"
 snippet$1
 endsnippet
 
-snippet snippet_visual "Visual snippet"
+snippet snippet_visual "Visual snippet" b
 snippet ${1:Trigger} "${2:Description}" ${3:Options}
 \${0:\${VISUAL:${0:${VISUAL:Snippet}}}}
 `!p snip.rv = "endsnippet"`
 endsnippet
 
-snippet snippet_alias "Alias snippet"
+snippet snippet_alias "Alias snippet" b
 post_jump "expand(snip)"
 snippet ${1:Alias} "Description"
 ${2:Actual Snippet}\$1
@@ -168,7 +217,7 @@ endsnippet
 
 # This will use the first expansion for the others.
 # Kept for Reference
-snippet snippet_multi "Use one placeholder for many"
+snippet snippet_multi "Use one placeholder for many" b
 ${1:Placeholder}
 ${0:$1}
 $1
@@ -176,9 +225,90 @@ ${0:$1}
 ${0:$1}
 endsnippet
 
-snippet snippet_context "Snippet with a context requirement (expression evals to True/False)."
+###############
+### Modular ###
+###############
+# Allow for modular components.
+#
+# You should be importing these from Vim's pythonx and not copying to every snippet file.
+# Windows: %USERPROFILE%\vimfiles\python3\my_module.py
+# Linux: ~/.vim/python3/my_module.py
+
+snippet snippet_context "Snippet with a context requirement (expression evals to True/False)." b
 context "${1:boolean_python_expression}"
 `!p snip.rv = "snippet"` ${2:snippet_name} "${3:snippet_description}"
 ${4:snippet}
 `!p snip.rv = "endsnippet"`$0
 endsnippet
+
+global !p
+import re
+
+
+def get_all_snippet_info() -> list[dict]:
+
+    vim.command('call UltiSnips#SnippetsInCurrentScope(1)')
+    current_ulti_dict_info = vim.eval('g:current_ulti_dict_info')
+
+    snippets = []
+    for name, info in current_ulti_dict_info.items():
+
+        path, line_number = info['location'].rsplit(':', 1)
+        description = info['description']
+
+        snippets.append(dict(
+            name=name,
+            path=path,
+            line_number=int(line_number),
+            description=description,
+        ))
+
+    return snippets
+
+
+def get_snippet_contents(snippet_name: str) -> str:
+
+    snippets = get_all_snippet_info()
+
+    snippet_info = None
+    for snip in snippets:
+        if snip['name'] == snippet_name:
+            snippet_info = snip
+
+    if snippet_info is None:
+        return ''
+
+    re_startsnippet = re.compile(r'^snippet.*$')
+    re_endsnippet = re.compile(r'^\s*endsnippet\s*$')
+
+    snippet_path = snippet_info['path']
+    line_number = int(snippet_info['line_number'])
+
+    start_block = line = linecache.getline(
+        str(snippet_path),
+        int(line_number),
+    ).rstrip('\n')
+    line_number += 1
+    if not re_startsnippet.match(start_block):
+        return ''
+
+    snippet_content = []
+    while not re_endsnippet.match(line):
+
+        line = linecache.getline(
+            str(snippet_path),
+            int(line_number),
+        ).rstrip('\n')
+        snippet_content.append(line)
+
+        line_number += 1
+
+        if re_endsnippet.match(line):
+            break
+
+    # remove end_block
+    snippet_content.pop()
+
+    return '\n'.join(snippet_content)
+
+endglobal
