@@ -312,3 +312,11 @@ def get_snippet_contents(snippet_name: str) -> str:
     return '\n'.join(snippet_content)
 
 endglobal
+
+
+#`!p snip.rv = get_snippet_contents('placeholder')`
+# This won't expand the snippet anonomously, but you can try post_jump with snip.expand_anon()
+# or `:help UltiSnips#Anon` for a Vim function.
+snippet placeholder_modular "Get contents of another snippet." i
+\`!p snip.rv = get_snippet_contents('${1:snippet_name}')\`$0
+endsnippet
