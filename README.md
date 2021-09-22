@@ -16,3 +16,20 @@ Cleaned for public use and readability.
 
 * [UltiSnips](https://github.com/SirVer/ultisnips)
 * [Community Snippets](https://github.com/honza/vim-snippets)
+
+# Globals (Python)
+
+You should be importing these from Vim's pythonx and not copying to every snippet file.
+
+* Windows: `%USERPROFILE%\vimfiles\python3\my_module.py`
+* Linux: `~/.vim/python3/my_module.py`
+
+``` UltiSnip
+global !p
+
+from my_module import my_function
+from my_module import my_var
+from my_module import MyClass
+
+endglobal
+```
