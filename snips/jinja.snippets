@@ -19,44 +19,52 @@ endglobal
 ### Basic ###
 #############
 
-snippet comment "Comments." i
+snippet comment "Jinja2: Comments." i
 {# ${1:${VISUAL:Comments}} #}$0
 endsnippet
 
-snippet variable "Variable." i
+snippet variable "Jinja2: Variable." i
 {{ ${1:${VISUAL:variable}} }}$0
 endsnippet
 
-snippet statement "Statement." i
+snippet statement "Jinja2: Statement." i
 {% ${1:${VISUAL:statement}} %}$0
 endsnippet
 
 # Like printing to template output
-snippet expression "Expression." i
+snippet expression "Jinja2: Expression." i
 {{ ${1:${VISUAL:variable}} }}$0
 endsnippet
 
-snippet filter "Filter." i
+snippet filter "Jinja2: Filter." i
 {{ ${1:${VISUAL:variable}} | ${2:filter} }}$0
 endsnippet
 
-snippet for "For loop." i
+snippet for "Jinja2: For loop." i
 {% for ${1:item} in ${2:iterable} %}
 	${3:${VISUAL:Loop}}
 {% endfor %}$0
 endsnippet
 
-snippet if "If Statement." i
+snippet if "Jinja2: If Statement." i
 {% if ${1:condition} %}
 	${2:${VISUAL:Code}}
 {% endif %}$0
 endsnippet
 
-snippet escape "Escape expression." i
+snippet if_else "Jinja2: Jinja if else statement"
+{% if ${1:condition} %}
+${0:${VISUAL:if}}
+{% else %}
+${2:else}
+{% endif %}
+endsnippet
+
+snippet escape "Jinja2: Escape expression." i
 {{ '${1:${VISUAL:escaped content}}' }}$0
 endsnippet
 
-snippet raw "Raw Statement." i
+snippet raw "Jinja2: Raw Statement." i
 {% raw %}
 	${1:${VISUAL:raw text}}
 {% endraw %}$0
@@ -66,21 +74,21 @@ endsnippet
 ### Templating ###
 ##################
 
-snippet block "Template block used in parent and children templates." i
+snippet block "Jinja2: Template block used in parent and children templates." i
 {% block ${1:name} %}
 	${2:${VISUAL:Content}}
 {% endblock %}
 endsnippet
 post_jump "expand(snip)"
-snippet content "Description"
+snippet content "Jinja2: Description"
 block$1
 endsnippet
 
-snippet block_inline "Template block used in parent and children templates." i
+snippet block_inline "Jinja2: Template block used in parent and children templates." i
 {% block ${1:name} %}${2:${VISUAL:Content}}{% endblock %}
 endsnippet
 
-snippet extends "This file extends Parent as the child." b
+snippet extends "Jinja2: This file extends Parent as the child." b
 {% extends "${1:parent.html}" %}
 endsnippet
 
@@ -88,7 +96,7 @@ endsnippet
 ### Flask ###
 #############
 
-snippet url_for "Flask: url_for" i
+snippet url_for "Jinja2: Flask: url_for" i
 url_for('${1:file}')
 url_for('${1:directory}', filename='${2:file}')
 endsnippet
