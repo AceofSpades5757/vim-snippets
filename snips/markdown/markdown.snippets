@@ -3,19 +3,17 @@
 # Version:      0.0.3
 # Last Change:  September 19, 2021
 
+
 extends markdown, html, css
 extends vimwiki
+
 
 ##############
 ### Global ###
 ##############
 
 global !p
-def expand(snip, jump_pos=1):
-	if snip.tabstop != jump_pos:
-		return
-
-	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+from helpers import expand
 endglobal
 
 #############

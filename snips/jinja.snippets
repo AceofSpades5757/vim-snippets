@@ -1,18 +1,15 @@
 # Jinja Snippets
 # Author:       Kyle L. Davis
-# Version:      0.1.1
-# Last Change:  September 21, 2021
+# Version:      0.1.2
+# Last Change:  November 01, 2021
+
 
 ##############
 ### Global ###
 ##############
 
 global !p
-def expand(snip, jump_position=1):
-	if snip.tabstop != jump_position:
-		return
-
-	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+from helpers import expand
 endglobal
 
 #############

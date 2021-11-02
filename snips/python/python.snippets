@@ -1,7 +1,8 @@
 # Python Snippets
 # Author:      AceofSpades5757
-# Version:     1.0.1
-# Last Change: September 21, 2021
+# Version:     1.0.2
+# Last Change: November 01, 2021
+
 
 ###############
 ### Helpers ###
@@ -9,10 +10,7 @@
 
 # For Alias Snippets
 global !p
-def expand(snip, jump_pos=1):
-	if snip.tabstop != jump_pos:
-		return
-	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+from helpers import expand
 endglobal
 
 #############

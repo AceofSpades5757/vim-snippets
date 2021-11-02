@@ -29,11 +29,7 @@ from authorship import author
 endglobal
 
 global !p
-def expand(snip, jump_pos=1):
-	if snip.tabstop != jump_pos:
-		return
-
-	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+from helpers import expand
 endglobal
 
 ###############

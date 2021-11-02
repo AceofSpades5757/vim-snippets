@@ -1,15 +1,11 @@
 # Python Shell Snippets
 # Author:       Kyle L. Davis
-# Version:      0.3.8
-# Last Change:  September 19, 2021
+# Version:      0.3.9
+# Last Change:  November 01, 2021
 
 
 global !p
-def expand(snip, jump_pos=1):
-	if snip.tabstop != jump_pos:
-		return
-
-	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+from helpers import expand
 endglobal
 
 

@@ -1,7 +1,7 @@
 # Python Control Flow Snippets
 # Author:       AceofSpades5757
-# Version:      1.0.2
-# Last Change:  September 19, 2021
+# Version:      1.0.3
+# Last Change:  November 01, 2021
 
 
 ###############
@@ -9,27 +9,7 @@
 ###############
 
 global !p
-def expand_anon(snip):
-
-	start_line = snip.snippet_start[0]
-	end_line = snip.snippet_end[0]
-
-	spaces = vim.eval(f'indent({start_line})')
-	shiftwidth = vim.eval('&shiftwidth')
-	indent = int(int(spaces) / int(shiftwidth))
-
-
-	anonomous_snippet = snip.buffer[snip.snippet_start[0]:snip.snippet_end[0]]
-	anonomous_snippet = '\n'.join(anonomous_snippet).strip()
-
-	snip.buffer[start_line:end_line] = ''
-
-	anonomous_snippet = anonomous_snippet.splitlines()
-	for i in range(len(anonomous_snippet)):
-		anonomous_snippet[i] = indent * '\t' + anonomous_snippet[i]
-	anonomous_snippet = '\n'.join(anonomous_snippet)
-
-	snip.expand_anon(anonomous_snippet)
+from helpers import expand_anon
 endglobal
 
 #####################
@@ -42,7 +22,8 @@ if ${1:condition}:
 endsnippet
 
 # Dynamic if/else
-# There's some kind of bug with this... I think it's the expand_anon that was
+# TODO Move code to module for proper testing and development
+# FIX There's some kind of bug with this... I think it's the expand_anon that was
 # removed previously. Still mostly works.
 post_jump "expand_anon(snip)"
 snippet "i(f{2,})" "Dynamic If Elif Else" br

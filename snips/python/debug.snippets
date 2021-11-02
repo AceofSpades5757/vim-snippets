@@ -1,7 +1,7 @@
 # Python Debug Snippets
 # Author:       AceofSpades5757
-# Version:      0.1.0
-# Last Change:  August 12, 2021
+# Version:      0.1.1
+# Last Change:  November 01, 2021
 
 
 ###############
@@ -9,11 +9,7 @@
 ###############
 
 global !p
-def expand(snip, jump_pos=1):
-	if snip.tabstop != jump_pos:
-		return
-
-	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+from helpers import expand
 endglobal
 
 ##############
