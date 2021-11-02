@@ -25,19 +25,7 @@ endglobal
 
 # Authorship Information
 global !p
-from types import SimpleNamespace
-
-
-# SimpleNamespace can be replaced with Class
-# These are variables set in _vimrc
-# * `let g:snips_author = "My Name"`
-# * `let g:snips_email = "my.email@email.com"`
-# * `let g:snips_github = "MyGitHubUsername123"`
-author = SimpleNamespace(
-	name=vim.vars.get('snips_author').decode('utf-8'),
-	email=vim.vars.get('snips_email').decode('utf-8'),
-	github=vim.vars.get('snips_github').decode('utf-8'),
-)
+from authorship import author
 endglobal
 
 global !p

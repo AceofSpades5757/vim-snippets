@@ -19,7 +19,7 @@ Cleaned for public use and readability.
 
 # Globals (Python)
 
-You should be importing these from Vim's pythonx and not copying to every snippet file.
+To find the Python imports used, check the `python` folder which would be located in your `.vim`/`vimfiles` directory (see `:help pythonx-directory` in Vim).
 
 * Windows: `%USERPROFILE%\vimfiles\python3\my_module.py`
 * Linux: `~/.vim/python3/my_module.py`
