@@ -34,11 +34,7 @@ endglobal
 # Expand Snippet
 # Credit: https://github.com/SirVer/ultisnips/blob/master/doc/examples/snippets-aliasing/README.md
 global !p
-def expand(snip, jump_position=1):
-	if snip.tabstop != jump_position:
-		return
-
-	vim.eval('feedkeys("\<C-R>=UltiSnips#ExpandSnippet()\<CR>")')
+from helpers import expand
 endglobal
 
 # Authorship Information
