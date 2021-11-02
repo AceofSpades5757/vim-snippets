@@ -66,24 +66,7 @@ endsnippet
 ################
 
 global !p
-import requests
-import json
-
-
-ENCODING = 'utf-8'
-
-
-def get_gitignore(filetype: str) -> str:
-
-	url = f'https://www.toptal.com/developers/gitignore/api/list?format=json'
-	response = requests.get(url)
-	str_data = response.content.decode(ENCODING)
-	json_ = json.loads(str_data)
-
-	contents = json_.get(filetype, {'contents': ''}).get('contents', '')
-
-	return contents
-
+from gitignore_io import get_getignore
 endglobal
 
 snippet "github_io_([a-z]+)" "Get .gitignore contents from gitignore.io (may be slow)." br
