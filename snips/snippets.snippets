@@ -1,22 +1,7 @@
 # UltiSnips Snippet Snippets
 # Author:       AceofSpades5757
-# Version:      1.0.1
-# Last Change:  September 19, 2021
-#
-# Options (`:help UltiSnips-snippet-options`)
-# -------
-# b - Beginning of Line
-# w - Word Boundary
-# i - Inline/In-Word
-#
-# s - Remove Whitespace
-# m - Trim All Trailing Whitespace
-# t - Do not expand tabs
-# A - Auto Trigger
-# r - Regex
-#
-# e - Context
-#
+# Version:      1.1.0
+# Last Change:  November 02, 2021
 
 
 ###############
@@ -31,15 +16,18 @@ clean_today = ' '.join([i.lstrip('0') for i in today.split()])
 today = clean_today
 endglobal
 
-# Expand Snippet
-# Credit: https://github.com/SirVer/ultisnips/blob/master/doc/examples/snippets-aliasing/README.md
+# Authorship Information
+global !p
+from authorship import author
+endglobal
+
 global !p
 from helpers import expand
 endglobal
 
-# Authorship Information
 global !p
-from authorship import author
+from modular import get_all_snippet_info
+from modular import get_snippet_contents
 endglobal
 
 #############
@@ -52,7 +40,7 @@ ${1:${VISUAL:global block}}
 endglobal
 endsnippet
 
-snippet reserved "Allows reserved work, like `endsnippet` inside a snippet"
+snippet reserved "Allows reserved work, like `endsnippet` inside a snippet" i
 `!p snip.rv = '\`!p snip.rv = "'`${1:${VISUAL:reserved_word}}"\`$0
 endsnippet
 
@@ -66,8 +54,8 @@ ${2:${VISUAL:Snippet(s)}}
 priority ${1:0}
 endsnippet
 
-priority 1  # Do not use placeholder snippet that exists
-snippet escape_placeholder "Escape placeholders." i
+priority 1  # Do not use tabstop snippet that exists
+snippet tabstop_escape "Escape tabstops." i
 `!p snip.rv = '$\\'`${1:1}
 endsnippet
 priority 0
@@ -122,11 +110,11 @@ endsnippet
 ### Placholders ###
 ###################
 
-snippet placeholder "An UltiSnips placeholder." i
+snippet tabstop "An UltiSnips tabstop." i
 ${${1:number}:${2:${VISUAL:description}}}$0
 endsnippet
 
-snippet placeholder_visual "An UltiSnips visual placeholder." i
+snippet tabstop_visual "An UltiSnips visual tabstop." i
 ${${1:number}:`!p snip.rv = "${VISUAL:"`${2:Description}}}$0
 endsnippet
 
@@ -147,12 +135,16 @@ endsnippet
 # i - Case Insenitive
 # m - Multiline (re.MULTILINE)
 # a - ASCII Conversion (Default: UTF-8)
-snippet placeholder_replacement "An UltiSnips replacement placeholder."
-${${1:tabstop_number}/${2:regex}/${3:replacement}/${4:options}}$0
+snippet tabstop_replacement "An UltiSnips replacement tabstop."
+${${1:tabstop_number}/${2:regex}/${3:replacement}/${4:options}}
 endsnippet
 
-snippet placeholder_dependent "Placeholder dependent on the content of another tabstop. Default: Tabstop is empty" i
-\`!p snip.rv = '${1:True}' if t[${2:tabstop_number}] ${3:!=} '${4:}' else '${5:False}'\`$0
+snippet tabstop_modular "Get contents of another snippet." i
+\`!p snip.rv = get_snippet_contents('${1:snippet_name}')\`
+endsnippet
+
+snippet tabstop_dependent "Tabstop dependent on the content of another tabstop. Default: Tabstop is empty" i
+\`!p snip.rv = '${1:${VISUAL:True}}' if t[${2:tabstop_number}] ${3:!=} '${4:}' else '${5:False}'\`
 endsnippet
 
 ###############
@@ -187,6 +179,14 @@ snippet ${1:Trigger} "${2:Description}" ${3:Options}
 `!p snip.rv = "endsnippet"`
 endsnippet
 
+snippet snippet_context "Snippet with a context requirement (expression evals to True/False)." b
+context "${1:boolean_python_expression}"
+`!p snip.rv = "snippet"` ${2:snippet_name} "${3:snippet_description}"
+${4:snippet}
+`!p snip.rv = "endsnippet"`$0
+endsnippet
+
+# DOES NOT SUPPORT VISUAL from an alias to the snippet...
 snippet snippet_alias "Alias snippet" b
 post_jump "expand(snip)"
 snippet ${1:Alias} "Description"
@@ -197,38 +197,4 @@ endsnippet
 post_jump "expand(snip)"
 snippet alias "Description"
 snippet_alias$1
-endsnippet
-
-# This will use the first expansion for the others.
-# Kept for Reference
-snippet snippet_multi "Use one placeholder for many" b
-${1:Placeholder}
-${0:$1}
-$1
-${0:$1}
-${0:$1}
-endsnippet
-
-###############
-### Modular ###
-###############
-# Allow for limited, modular components.
-
-snippet snippet_context "Snippet with a context requirement (expression evals to True/False)." b
-context "${1:boolean_python_expression}"
-`!p snip.rv = "snippet"` ${2:snippet_name} "${3:snippet_description}"
-${4:snippet}
-`!p snip.rv = "endsnippet"`$0
-endsnippet
-
-global !p
-from modular import get_all_snippet_info
-from modular import get_snippet_contents
-endglobal
-
-#`!p snip.rv = get_snippet_contents('placeholder')`
-# This won't expand the snippet anonomously, but you can try post_jump with snip.expand_anon()
-# or `:help UltiSnips#Anon` for a Vim function.
-snippet placeholder_modular "Get contents of another snippet." i
-\`!p snip.rv = get_snippet_contents('${1:snippet_name}')\`$0
 endsnippet
