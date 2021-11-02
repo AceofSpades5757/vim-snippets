@@ -2,6 +2,23 @@ import vim  # noqa
 
 
 def expand(snip, jump_pos=1):
+    """ Expands snippet.
+
+    Used with post_jump to automatically expand the snippet.
+
+    Examples
+    --------
+    Alias Example
+
+            snippet my_snippet_1 "Example snippet."
+            What my snippet will expand to.
+            endsnippet
+
+            post_jump "expand(snip)"
+            snippet my_snippet_2 "Using the post_jump, this acts for an alias to my_snippet_1."
+            my_snippet_1$1
+            endsnippet
+    """
     if snip.tabstop != jump_pos:
         return
 
