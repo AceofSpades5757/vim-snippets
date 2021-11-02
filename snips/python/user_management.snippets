@@ -28,6 +28,7 @@ current_user = os.environ.get('SUDO_USER', 0)
 if sys.platform != 'win32' and is_admin:
 	current_user = getpwnam(current_user).pw_uid
 endsnippet
+
 # Only have this working for Linux
 snippet set_user "Set current user" bm
 # Linux
